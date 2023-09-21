@@ -41,7 +41,7 @@ function hashObject(obj: TsObject | null): number {
     }
 }
 
- function hashString(str: string): number {
+ export function hashString(str: string): number {
     return cyrb53(str);
 }
 
