@@ -1,5 +1,3 @@
-import {CircularProgress, useTheme} from "@mui/material";
-import {AutoCompleteWidthPx} from "./Autocomplete";
 import {CSSProperties, Fragment, MouseEventHandler, useEffect, useState} from "react";
 import { completionsEqual } from "./CompletionUtils";
 import {Completion} from "../SearchitBar";
@@ -92,7 +90,7 @@ function NonEmptyAutocompleteContent(props: AutoCompleteContentProps) {
                                                              e.preventDefault()
                                                              props.onSelectItem(item)
                                                          }}/>)}
-        {props.isLoading && <CircularProgress style={{alignSelf: "center"}}/>}
+        { <div className={styles.loader} style={{alignSelf: "center"}}/>}
     </div>
 }
 
@@ -104,7 +102,6 @@ function AutoCompleteItem(props: {
     active: boolean,
     typedWord: string
 }) {
-    const theme = useTheme()
     const {before, typed, after} = breakDownItemIntoTypedAndNonTyped(props.item, props.typedWord)
 
     return <span style={{
@@ -116,7 +113,7 @@ function AutoCompleteItem(props: {
                  }}>
         {before}
         {/*Highlight the typed value in blue*/}
-        <span style={{color: theme.palette.primary.main, padding: 0}}>{typed}</span>
+        <span style={{color: AppTheme.primary, padding: 0}}>{typed}</span>
         {after}
     </span>
 }
