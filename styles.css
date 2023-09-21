@@ -7,6 +7,9 @@
     --hover: rgba(0, 88, 150, 0.15);
     --error: rgba(255, 0, 0);
     --selected: rgba(0, 88, 150, 0.5);
+    --border: rgb(86,86,86);
+    --text: rgb(255,255,255);
+    --primary: rgb(0, 217, 255)
 }
 
 /*Light theme*/
@@ -15,8 +18,9 @@
     --surface: rgb(195, 195, 195);
     --contrast-surface: rgb(160, 160, 160);
     --contrast-text: rgb(52, 51, 47);
+    --text: rgb(0,0,0);
+    --border: rgb(199,198,181);
 }
-
 
 /*Flow*/
 .row {
@@ -30,11 +34,14 @@
 
 .spaced-row {
     & > *:not(:last-child) {
+        /*Value provided via JS */
+        /*noinspection CssUnresolvedCustomProperty*/
         margin-right: var(--row-space)
     }
 }
 .spaced-column {
     & > *:not(:last-child) {
+        /*noinspection CssUnresolvedCustomProperty*/
         margin-bottom: var(--column-space)
     }
 }

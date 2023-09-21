@@ -1,5 +1,6 @@
 import "./Extensions"
 import {TsKey} from "../types/Basic";
+import {HashSet} from "../collections/hashmap/HashSet";
 
 export {}
 
@@ -205,13 +206,60 @@ Array.prototype.splitBy = function <T>(this: T[], predicate: (item: T, index: nu
 
 Array.prototype.indexOfOrThrow = function <T>(this: T[], element: T): number {
     const index = this.indexOf(element);
-    if (index === -1) throw new Error(`The element '${element}' doesn't exist in the array: ${this}`)
+    if (index === -1) throw new Error(`Item '${JSON.stringify(element)}' is missing in array '${JSON.stringify(this)}'!`)
     return index;
 }
 
-Array.prototype.sortedBy = function <T>(this: T[], comparisonKey: (element: T) => number) {
-    return [...this].sort((a, b) => comparisonKey(a) - comparisonKey(b))
+Array.prototype.sortedBy = function <T, V>(this: T[], comparisonKey: (element: T) => V, options?: {descending: boolean}) {
+    // Default - false
+    const desc = options?.descending === true
+    return [...this].sort((a, b) => {
+        const aValue = comparisonKey(a)
+        const bValue = comparisonKey(b)
+        if (aValue === bValue) return 0
+        else if (aValue < bValue) return desc ? 1 : -1
+        else return desc ? -1 : 1
+    })
 }
-Array.prototype.sortedDescendingBy = function <T>(this: T[], comparisonKey: (element: T) => number) {
-    return [...this].sort((a, b) => comparisonKey(b) - comparisonKey(a))
+
+
+Array.prototype.getOrThrow = function <T>(this: T[], index: number): T {
+    if (index < 0) throw new Error(`Index ${index} is negative`)
+    if (index >= this.length) throw new Error(`Index ${index} is out of bounds of array of size ${this.length}`)
+    return this[index]
+}
+Array.prototype.last = function <T>(this: T[]): T {
+    return this[this.length - 1]
+}
+
+
+Array.prototype.first = function <T>(this: T[]): T {
+    return this[0]
+}
+Array.prototype.firstIndex = function <T>(this: T[], predicate: (item: T) => boolean): number {
+    for (let i = 0; i < this.length; i++) {
+        if (predicate(this[i])) return i;
+    }
+    throw new Error(`Item matching predicate is missing in array '${JSON.stringify(this)}'!`)
+}
+
+Array.prototype.dropLast = function <T>(this: T[], amount: number): Array<T> {
+    const newArray = new Array(this.length - amount)
+    for (let i = 0; i < this.length - amount; i++) {
+        newArray[i] = this[i]
+    }
+    return newArray
+}
+
+Array.prototype.distinct = function <T>(this: T[]): Array<T> {
+    const newArray = []
+    const existingTracker = HashSet.ofCapacity(this.length)
+    for (const item of this) {
+        if (!existingTracker.contains(item)) {
+            newArray.push(item)
+            // Track items that were already inserted to prevent duplication
+            existingTracker.put(item)
+        }
+    }
+    return newArray
 }

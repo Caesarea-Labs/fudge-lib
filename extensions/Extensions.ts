@@ -48,32 +48,50 @@ declare global {
     }
 
     interface Array<T> {
-        arrayEquals(array: T[]): boolean
-
-        remove(item: T): void
-
-        firstOr<V>(or: () => V): T | V
-
-        drop(amount: number): Array<T>
-
-        splitBy(predicate: (item: T, index: number) => boolean): [Array<T>, Array<T>]
-
-        // Happens synchronously, every item is evaluated after the previous one
-        mapSync<NT>(map: (item: T, index: number) => Promise<NT>): Promise<Array<NT>>
-
         isEmpty(): boolean
+
+        arrayEquals(array: T[]): boolean
 
         none(test: (item: T) => boolean): boolean
 
-        toRecord<K extends TsKey, V>(map: (element: T, index: number) => [K, V]): Record<K, V>;
+
+        remove(item: T): void
+
+
+        firstOr<V>(or: () => V): T | V
+
+        getOrThrow(index: number): T
+
+        first(): T
+
+        last(): T
+
+        firstIndex(predicate: (item: T) => boolean): number
+
+        indexOfOrThrow(item: T): number
 
         sum(numberMap: (item: T) => number): number;
 
-        indexOfOrThrow(this: T[], element: T) : number
 
-        sortedBy(comparisonKey: (element: T) => number): T[]
+        drop(amount: number): T[]
 
-        sortedDescendingBy(comparisonKey: (element: T) => number): T[]
+        dropLast(amount: number): T[]
+
+        sortedBy<V>(comparisonKey: (element: T) => V, options?: { descending: boolean }): T[]
+
+        /**
+         * Uses Hashset semantics so will respect object structure for equality
+         */
+        distinct(): T[]
+
+        splitBy(predicate: (item: T, index: number) => boolean): [T[], T[]]
+
+        /**
+         * Happens synchronously, every item is evaluated after the previous one
+         */
+        mapSync<NT>(map: (item: T, index: number) => Promise<NT>): Promise<NT[]>
+
+        toRecord<K extends TsKey, V>(map: (element: T, index: number) => [K, V]): Record<K, V>;
     }
 }
 

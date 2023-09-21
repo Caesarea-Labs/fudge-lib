@@ -55,6 +55,14 @@ export class HashMap<K, V> implements MutableDict<K, V> {
         return map;
     }
 
+    static fromPairArray<K,V>(array: [K,V][]): HashMap<K, V> {
+        const map = new HashMap<K, V>(array.length)
+        for (const [key, value] of array) {
+            map.put(key, value)
+        }
+        return map;
+    }
+
     private static Empty = new HashMap(0);
 
     static empty<K, V>(): Dict<K, V> {
@@ -78,6 +86,10 @@ export class HashMap<K, V> implements MutableDict<K, V> {
     }
 
     /////////// Utility //////////
+
+    getOr(key: K, or: () => V): V {
+        return this.get(key) ?? or()
+    }
 
     forEach(func: (key: K, value: V) => void) {
         this.forEachImpl(this.buckets, ({key, value}) => func(key, value))
