@@ -1,0 +1,40 @@
+:root {
+    /*Dark colors*/
+    --background: rgb(28, 28, 28);
+    --surface: rgb(40, 40, 40);
+    --contrast-surface: rgb(50, 50, 50);
+    --contrast-text: rgb(199, 198, 181);
+    --hover: rgba(0, 88, 150, 0.15);
+    --error: rgba(255, 0, 0);
+    --selected: rgba(0, 88, 150, 0.5);
+}
+
+/*Light theme*/
+.light {
+    --background: rgb(255, 255, 255);
+    --surface: rgb(195, 195, 195);
+    --contrast-surface: rgb(160, 160, 160);
+    --contrast-text: rgb(52, 51, 47);
+}
+
+
+/*Flow*/
+.row {
+    display: flex;
+    flex-direction: row;
+}
+.column {
+    display: flex;
+    flex-direction: column;
+}
+
+.spaced-row {
+    & > *:not(:last-child) {
+        margin-right: var(--row-space)
+    }
+}
+.spaced-column {
+    & > *:not(:last-child) {
+        margin-bottom: var(--column-space)
+    }
+}
