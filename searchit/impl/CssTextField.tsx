@@ -1,11 +1,11 @@
 
 import styles from "./searchit.module.css"
 import React, {Ref} from "react";
-import {ReactComponent} from "../../../fudge-lib/types/React";
-import {State} from "../../../fudge-lib/state/State";
-import {Column} from "../../../fudge-lib/Flow";
-import {withClassName} from "../../../fudge-lib/react/Styles";
-import {AppTheme} from "../../../fudge-lib/AppTheme";
+import {ReactComponent} from "../../types/React";
+import {State} from "../../state/State";
+import {Column} from "../../Flow";
+import {withClassName} from "../../react/Styles";
+import {AppTheme} from "../../AppTheme";
 
 //TODO: test errors
 
@@ -27,9 +27,9 @@ export function CssTextField(props: {
     return <Column style={{width: "100%"}}>
         {/*Balance the bottom placeholder text so the input will be centered*/}
         {PlaceHolderText(errorTextSize)}
-        <div style={divStyle} className={styles.wrapper}  >
+        <div style={divStyle} className={styles.inputWrapper}  >
             {props.leadingIcon}
-            <input {...withClassName(inputProps, styles.input)} ref={props.inputRef} value={props.state.value} onChange={e => props.state.setValue(e.target.value)}/>
+            <input {...withClassName(inputProps, styles.textfieldInput)} ref={props.inputRef} value={props.state.value} onChange={e => props.state.setValue(e.target.value)}/>
         </div>
 
         {/*Even if there is no error, have hidden text so the component won't enlargen when there's an error*/}

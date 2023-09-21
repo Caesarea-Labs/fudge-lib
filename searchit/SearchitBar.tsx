@@ -1,8 +1,9 @@
-import {useAutoComplete} from "./impl/Autocomplete";
-import {OverlayedAutocompleteContent} from "./impl/SearchItBarImpl";
+import {AutoCompleteWidthPx, useAutoComplete} from "./impl/Autocomplete";
+import {AutocompleteContent} from "./impl/SearchItBarImpl";
 import {MdRadioButtonUnchecked} from "react-icons/md";
 import {CssTextField} from "./impl/CssTextField";
-import {State} from "../../fudge-lib/state/State";
+import {State} from "../state/State";
+import styles from "./impl/searchit.module.css"
 
 export interface SearchitProps {
     config: AutoCompleteConfig,
@@ -106,11 +107,12 @@ export function SearchitBar(props: SearchitProps) {
         </span>
 
         {/*Position the autocomplete in the exact caret position*/}
-        <OverlayedAutocompleteContent
+        <AutocompleteContent
+            className={styles.autocompleteOverlay}
             isLoading={autocomplete.isLoadingCompletions}
             typedWord={autocomplete.currentTypedWord}
             items={autocomplete.completions}
-            style={{left: autocomplete.relativeXPosition}}
+            style={{left: autocomplete.relativeXPosition, width: AutoCompleteWidthPx}}
             onSelectItem={(completion) => autocomplete.complete(completion)}/>
     </div>
 

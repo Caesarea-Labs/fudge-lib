@@ -3,6 +3,7 @@
     --background: rgb(28, 28, 28);
     --surface: rgb(40, 40, 40);
     --contrast-surface: rgb(50, 50, 50);
+    --extra-contrast-surface: rgb(60,60,60);
     --contrast-text: rgb(199, 198, 181);
     --hover: rgba(0, 88, 150, 0.15);
     --error: rgba(255, 0, 0);
@@ -11,12 +12,15 @@
     --text: rgb(255,255,255);
     --primary: rgb(0, 217, 255)
 }
+/*setTimeout(function(){debugger;}, 5000)
 
+*/
 /*Light theme*/
 .light {
     --background: rgb(255, 255, 255);
-    --surface: rgb(195, 195, 195);
-    --contrast-surface: rgb(160, 160, 160);
+    --surface: rgb(240, 240, 240);
+    --contrast-surface: rgb(220, 220, 220);
+    --extra-contrast-surface: rgb(200,200,200);
     --contrast-text: rgb(52, 51, 47);
     --text: rgb(0,0,0);
     --border: rgb(199,198,181);

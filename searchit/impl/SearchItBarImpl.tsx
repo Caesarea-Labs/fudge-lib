@@ -1,16 +1,12 @@
-import {CircularProgress, styled, useTheme} from "@mui/material";
+import {CircularProgress, useTheme} from "@mui/material";
 import {AutoCompleteWidthPx} from "./Autocomplete";
 import {CSSProperties, Fragment, MouseEventHandler, useEffect, useState} from "react";
 import { completionsEqual } from "./CompletionUtils";
 import {Completion} from "../SearchitBar";
-import {useKeyboardShortcut} from "../../../fudge-lib/react/Keyboard";
+import {useKeyboardShortcut} from "../../react/Keyboard";
+import styles from "./searchit.module.css"
+import {AppTheme} from "../../AppTheme";
 
-export const OverlayedAutocompleteContent = styled(AutocompleteContent)`
-  position: absolute;
-  margin-top: -15px;
-  width: ${AutoCompleteWidthPx}px;
-  z-index: 10000;
-`
 
 interface AutoCompleteContentProps {
     className?: string,
@@ -86,7 +82,7 @@ function NonEmptyAutocompleteContent(props: AutoCompleteContentProps) {
 
     const visibleItems = items.filter((_, i) => i >= firstVisibleIndex && i <= lastVisibleIndex)
 
-    return <AutocompleteOptions style={props.style} className={props.className + " column"}>
+    return <div style={props.style} className={props.className + ` ${styles.autocompleteItems}`}>
         {visibleItems.map((item, i) => <AutoCompleteItem typedWord={props.typedWord}
                                                          active={completionsEqual(activeItem, item)}
                                                          key={item.label + item.newText}
@@ -97,7 +93,7 @@ function NonEmptyAutocompleteContent(props: AutoCompleteContentProps) {
                                                              props.onSelectItem(item)
                                                          }}/>)}
         {props.isLoading && <CircularProgress style={{alignSelf: "center"}}/>}
-    </AutocompleteOptions>
+    </div>
 }
 
 
@@ -113,7 +109,7 @@ function AutoCompleteItem(props: {
 
     return <span style={{
         cursor: "pointer",
-        backgroundColor: props.active ? theme.custom.selectedCompletionBackground : undefined
+        backgroundColor: props.active ? AppTheme.selected : undefined
     }}
                  onMouseDown={(e) => {
                      if (e.button === LeftClick) props.onLeftClick(e)
@@ -140,21 +136,20 @@ function breakDownItemIntoTypedAndNonTyped(item: string, typedWord: string):
     return {before: item.slice(0, index), typed: item.slice(index,index + typedWord.length), after: item.slice(index + typedWord.length)}
 }
 
-const AutocompleteOptions = styled("div")(
-    ({theme}) => `
-    background-color: ${theme.custom.secondaryBackground};
-    display: flex;
-    flex-direction: column;
-    
-    border: 1px solid ${theme.custom.secondaryBackgroundBorder};
-    margin-top: 1px;
-    border-radius: 5px;
-  *:not(:last-child) {
-    border-bottom: 1px solid ${theme.custom.secondaryBackgroundSeparator};
-  }
-  * {
-  padding: 5px;
-  }
-    `
-)
+// const AutocompleteOptions = styled("div")(
+//     ({theme}) => `
+//     background-color: ${theme.custom.secondaryBackground};
+//     display: flex;
+//     flex-direction: column;
+//
+//     border: 1px solid ${theme.custom.secondaryBackgroundBorder};
+//     border-radius: 5px;
+//   *:not(:last-child) {
+//     border-bottom: 1px solid ${theme.custom.secondaryBackgroundSeparator};
+//   }
+//   * {
+//   padding: 5px;
+//   }
+//     `
+// )
 
