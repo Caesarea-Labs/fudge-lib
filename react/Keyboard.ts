@@ -10,8 +10,6 @@ export function useKeyboardShortcut(config: KeyboardShortcutConfig, deps?: unkno
             shortcut.unregister()
         }
     }, [...Object.values(config), ...(deps ?? [])])
-
-
 }
 
 /**
