@@ -97,6 +97,13 @@ export function coercePreferMin(num: number, bounds: { min: number, max: number 
 }
 
 /**
+ * Object.values() except it doesn't return `any`
+ */
+export function typedObjectValues<V>(record: Record<TsKey, V>) : V[] {
+    return Object.values(record)
+}
+
+/**
  * @deprecated use extension method removeSuffix(suffix) instead
  */
 export function removeSuffix(str: string, suffix: string): string {

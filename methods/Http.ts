@@ -94,16 +94,6 @@ async function httpCall(request: HttpRequest): Promise<Response> {
     }
     
     return typeof window !== "undefined" ? fetch(actualUrl,requestObject) : fetcher.fetch(actualUrl,requestObject)
-
-    // if (typeof window !== "undefined") {
-    //     return await fetcher.fetch(actualUrl, requestObject)
-    // } else {
-    //     During tests we use nodejs so we use a separate fetch api (node-fetch)
-    //     eslint-disable-next-line @typescript-eslint/no-var-requires
-    //     const fetch = await import("node-fetch")
-    //     @ts-ignore
-        // return await fetch.default(actualUrl, requestObject) as Response
-    // }
 }
 
 interface HttpRequest {

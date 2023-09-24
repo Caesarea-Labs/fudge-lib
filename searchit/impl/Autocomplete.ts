@@ -1,7 +1,7 @@
-import {RefObject, useEffect, useLayoutEffect, useMemo, useRef, useState} from "react";
-import {AutoCompleteConfig, Completion} from "../SearchitBar";
-import {useKeyboardShortcut} from "../../react/Keyboard";
-import {State, useStateObject} from "../../state/State";
+import {RefObject, useEffect, useLayoutEffect, useMemo, useRef, useState} from "react"
+import {AutoCompleteConfig, Completion} from "../SearchitBar"
+import {useKeyboardShortcut} from "../../react/Keyboard"
+import {State, useStateObject} from "../../state/State"
 
 
 export interface AutoComplete {
@@ -51,6 +51,7 @@ export interface AutoComplete {
      * Will show the autocomplete items
      */
     show(): void
+
     /**
      * Will hide the autocomplete items
      */
@@ -67,7 +68,8 @@ export const AutoCompleteWidthPx = 300
 
 export function useAutoComplete(config: AutoCompleteConfig, queryState: State<string>): AutoComplete {
     // we hold a separate state, because a new value is submitted only sometimes, and we need to take care of every single character change
-    // This value is aware of every character change, the input value and onSubmit is only aware of submission changes (Enter pressed, lost focus, etc)
+    // This value is aware of every character change, the input value and onSubmit is only aware of submission changes (Enter pressed, lost focus,
+    // etc)
     const textState = useStateObject(queryState.value)
     const [text, setText] = textState.destruct()
 
@@ -80,17 +82,19 @@ export function useAutoComplete(config: AutoCompleteConfig, queryState: State<st
         stringIndex: 0,
         relativeX: 0,
         absoluteX: 0
-    });
+    })
     const [isLoadingCompletions, setIsLoadingCompletions] = useState(false)
 
     // Important note: we measure the padding and margin of the input field only once for positioning elements correctly.
     const textAreaStyle = useMemo(() => {
         return textAreaRef.current === null ? null : window.getComputedStyle(textAreaRef.current)
+        //TODO: see if this inspection is correct
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [textAreaRef.current])
 
     useCaretPosition()
     const results = useResults()
-    useShortcuts();
+    useShortcuts()
 
     return {
         relativeXPosition: anchor(),
@@ -138,7 +142,7 @@ export function useAutoComplete(config: AutoCompleteConfig, queryState: State<st
             // Enter: submit text. Only relevant when we are not autocompleting something.
             code: "Enter", callback: () => {
                 queryState.setValue(text)
-            }, target: textAreaRef,
+            }, target: textAreaRef
         })
     }
 
@@ -174,18 +178,20 @@ export function useAutoComplete(config: AutoCompleteConfig, queryState: State<st
                         }
                     )
                 }
-            };
+            }
 
-            document.addEventListener('selectionchange', handleSelectionChange);
+            document.addEventListener("selectionchange", handleSelectionChange)
             document.addEventListener("input", handleSelectionChange)
 
             return () => {
-                document.removeEventListener('selectionchange', handleSelectionChange);
-                document.removeEventListener('input', handleSelectionChange);
-            };
-        }, [textAreaRef]);
+                document.removeEventListener("selectionchange", handleSelectionChange)
+                document.removeEventListener("input", handleSelectionChange)
+            }
+            //TODO: see if this inspection is correct
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+        }, [textAreaRef])
 
-        return caretPosition;
+        return caretPosition
     }
 
 
@@ -201,7 +207,7 @@ export function useAutoComplete(config: AutoCompleteConfig, queryState: State<st
         return {
             newText: actualStart + completion.newText + end,
             completionEndPosition: actualStart.length + completion.newText.length
-        };
+        }
     }
 
     function anchor(): number {
@@ -210,9 +216,12 @@ export function useAutoComplete(config: AutoCompleteConfig, queryState: State<st
 
         const {relative, absolute} = getTextX(getStartOfWordIndex())
         // If the autocomplete will not overflow place it to the right of the text
-        if (absolute + AutoCompleteWidthPx < window.innerWidth) return relative
-        // If the autocomplete will overflow place it on the left of the text
-        else return relative - AutoCompleteWidthPx
+        if (absolute + AutoCompleteWidthPx < window.innerWidth) {
+            return relative
+        }// If the autocomplete will overflow place it on the left of the text
+        else {
+            return relative - AutoCompleteWidthPx
+        }
     }
 
     function getStartOfWordIndex(): number {
@@ -265,6 +274,8 @@ export function useAutoComplete(config: AutoCompleteConfig, queryState: State<st
                 }
             }
 
+            //TODO: see if this inspection is correct
+            // eslint-disable-next-line react-hooks/exhaustive-deps
         }, [relevantText, forceCompletions])
         if (!shown || (!(config.alwaysShowCompletions ?? false) && !forceCompletions && relevantText === "")) return []
         //TODO: distinct() call might fail if we have more fields in Completion
@@ -305,7 +316,7 @@ export function useAutoComplete(config: AutoCompleteConfig, queryState: State<st
         }
 
         const rect = range.getClientRects()[0]
-        if (rect === undefined) return 0;
+        if (rect === undefined) return 0
         const textWidth = rect.width
         const paddingAndMargin = parseDistanceValue(textAreaStyle.paddingLeft) + parseDistanceValue(textAreaStyle.marginLeft)
         return textWidth + paddingAndMargin
@@ -313,13 +324,14 @@ export function useAutoComplete(config: AutoCompleteConfig, queryState: State<st
 }
 
 function parseDistanceValue(distanceString: string): number {
-    if (distanceString === "") return 0
-    else if (distanceString.endsWith("px")) return parseInt(distanceString.removeSuffix("px"))
-    else {
+    if (distanceString === "") {
+        return 0
+    } else if (distanceString.endsWith("px")) {
+        return parseInt(distanceString.removeSuffix("px"))
+    } else {
         throw new Error(`Expected padding/margin ${distanceString} to only be px-based, not ${distanceString}!`)
     }
 }
-
 
 
 export interface CaretPosition {

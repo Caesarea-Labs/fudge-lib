@@ -205,7 +205,6 @@ export class HashMap<K, V> implements MutableDict<K, V> {
         return bucket.find(entry => equalsOfAnything(entry.key, key));
     }
 
-    // eslint-disable-next-line class-methods-use-this
     private forEachImpl(buckets: MapBucket<K, V>[], func: (entry: Entry<K, V>) => void) {
         for (let i = 0; i < buckets.length; i++) {
             const bucket = buckets[i];

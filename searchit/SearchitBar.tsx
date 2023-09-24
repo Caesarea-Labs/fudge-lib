@@ -65,20 +65,7 @@ export interface Completion {
     newText: string
 }
 
-/**
- * Easy implementation for completable that assumes no server work is needed for getting the completion results.
- * For server-based completions, implement `Completable` directly.
- */
-export function syncCompletable(options: (text: string) => Completion[]): Completeable {
-    return {
-        options: (text) => {
-            const value = options(text)
-            return Promise.resolve(value);
-        },
-        cancel: () => {
-        }
-    }
-}
+
 
 /**
  * A text field that allows auto-complete.
@@ -96,8 +83,8 @@ export function SearchitBar(props: SearchitProps) {
                                         style={{color: "yellow", visibility: autocomplete.submitted ? "hidden" : undefined}}/>
             }
             inputRef={autocomplete.inputRef}
-            onFocus={autocomplete.show}
-            onBlur={autocomplete.hide}
+            onFocus={() => autocomplete.show()}
+            onBlur={() => autocomplete.hide()}
             spellCheck={false}
         />
 

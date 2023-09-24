@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import React from "react";
 import {withClassName, withDynamicClass} from "./react/Styles";
 type DivProps = React.HTMLAttributes<HTMLDivElement>

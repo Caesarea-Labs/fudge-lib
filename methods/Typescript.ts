@@ -5,5 +5,5 @@ export function typedKeys<K extends TsKey, V>(object: Record<K, V>): K[] {
 }
 
 export function isObj(x: unknown): x is Record<string, unknown> {
-    return typeof x === 'object' && x != null;
+    return typeof x === 'object' && x !== null;
 }

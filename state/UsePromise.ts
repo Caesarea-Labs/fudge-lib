@@ -15,6 +15,8 @@ export function usePromise<T>(promise: () => Promise<NonNullable<T>> | T, deps: 
     useEffect(() => {
         if (retainValueBetweenChanges !== true) setResult(undefined);
         void Promise.resolve(promise()).then(setResult)
+        //TODO: see if this inspection is correct
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, deps)
     return result
 }

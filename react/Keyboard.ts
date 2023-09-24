@@ -9,6 +9,7 @@ export function useKeyboardShortcut(config: KeyboardShortcutConfig, deps?: unkno
         return () => {
             shortcut.unregister()
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [...Object.values(config), ...(deps ?? [])])
 }
 

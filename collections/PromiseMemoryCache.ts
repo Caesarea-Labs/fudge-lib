@@ -90,7 +90,6 @@ export class PromiseMemoryCache<T> {
         // const potentiallyOutdatedPromise = this.ongoingPromises[key]
         // While the promise's value is correct as of before awaiting, it may change to a different value during the await.
         const potentiallyOutdatedValue = await initialPromise;
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
 
         const upToDatePromise = this.ongoingPromises[key]
         if (upToDatePromise !== initialPromise) {
