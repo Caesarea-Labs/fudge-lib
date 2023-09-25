@@ -92,7 +92,7 @@ function NonEmptyAutocompleteContent(props: AutoCompleteContentProps) {
                                                           e.preventDefault()
                                                           props.onSelectItem(item)
                                                       }}/>)}
-        {<div className={styles.loader} style={{alignSelf: "center"}}/>}
+        {props.isLoading && <div className={styles.loader} style={{alignSelf: "center"}}/>}
     </div>
 }
 
