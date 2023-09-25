@@ -22,7 +22,7 @@ export function defaultJsonSerializer<T>(): JsonSerializer<T> {
             })
         },
         stringify(obj: unknown): string {
-            // By default, write dayjs instances in a special format so they can be easily parsed
+            // By default, write dayjs instances in a special format, so they can be easily parsed
             return JSON.stringify(obj)
         }
     }

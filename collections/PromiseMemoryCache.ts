@@ -15,7 +15,7 @@ interface AnyError {
 
 
 function isError(obj: unknown): obj is AnyError {
-    return obj !== null && typeof obj === "object" && anyErrorField in obj;
+    return obj !== null && typeof obj === "object" && anyErrorField in obj
 }
 
 export class PromiseMemoryCache<T> {
@@ -51,13 +51,13 @@ export class PromiseMemoryCache<T> {
     //      Deleting is correct here because it will be handled correctly by special case B1.
     //
     // Case C: There's no cached value and there's something in ongoingPromises.
-    //  In that case we jump straight to the CORE LOOP descrived in Case B.
+    //  In that case we jump straight to the CORE LOOP described in Case B.
 
     // TODO: test all the cases.
 
     async get(key: string, orProduce: () => Promise<T>): Promise<T> {
-        const cachedValue = this.getOrUndefined(key);
-        if (cachedValue !== undefined) return cachedValue;
+        const cachedValue = this.getOrUndefined(key)
+        if (cachedValue !== undefined) return cachedValue
         return this.setPromise(key, orProduce())
     }
 
@@ -69,7 +69,7 @@ export class PromiseMemoryCache<T> {
                 // Make sure currently running promises know to throw too.
                 this.ongoingPromises[key] = {
                     _memory_cache_error_value: e
-                };
+                }
                 // This is a slight memory leak, but it is reasonable given that it is an extreme case where errors are thrown in it.
                 // The bright side is that the state will be completely correct.
                 throw e
@@ -78,18 +78,18 @@ export class PromiseMemoryCache<T> {
 
         // Calling this before the delete call is very important
         // so that other viewers of this key have somewhere to go once the ongoingPromise value is lost.
-        this.cache[key] = resolvedValue;
+        this.cache[key] = resolvedValue
         // Promise fulfilled - we can now use the cache instead and we don't need to store the promise anymore.
         delete this.ongoingPromises[key]
 
-        return resolvedValue;
+        return resolvedValue
     }
 
 
     async ongoingPromiseValue(key: string, initialPromise: Promise<T>): Promise<T> {
         // const potentiallyOutdatedPromise = this.ongoingPromises[key]
         // While the promise's value is correct as of before awaiting, it may change to a different value during the await.
-        const potentiallyOutdatedValue = await initialPromise;
+        const potentiallyOutdatedValue = await initialPromise
 
         const upToDatePromise = this.ongoingPromises[key]
         if (upToDatePromise !== initialPromise) {
@@ -99,34 +99,35 @@ export class PromiseMemoryCache<T> {
                 // If there's no value, a resolved value must have been stored in the cached.
                 const cachedValue = this.cache[key]
                 if (cachedValue === undefined) {
-                    throw new Error(`Unexpected MemoryCache state: value for key ${key} was not found after its promises was supposedly resolved and deleted.`)
+                    throw new Error(
+                        `Unexpected MemoryCache state: value for key ${key} was not found after its promises was supposedly resolved and deleted.`)
                 }
-                return cachedValue;
+                return cachedValue
             } else if (isError(upToDatePromise)) {
                 // If the promise threw we need to throw too.
-                throw upToDatePromise[anyErrorField];
+                throw upToDatePromise[anyErrorField]
             } else {
                 // Replaced by something - this value is outdated - do this process again
                 return this.ongoingPromiseValue(key, upToDatePromise)
             }
         } else {
             // Not replaced by anything - this is not outdated - return what we have
-            return potentiallyOutdatedValue;
+            return potentiallyOutdatedValue
         }
     }
 
     getOrUndefined(key: string): Promise<T> | undefined {
-        const cached = this.cache[key];
+        const cached = this.cache[key]
         if (cached !== undefined) {
-            return Promise.resolve(cached);
+            return Promise.resolve(cached)
         }
 
         // Try to reuse the recent, last time the value of this key was requested.
-        const ongoingPromise = this.ongoingPromises[key];
+        const ongoingPromise = this.ongoingPromises[key]
         if (ongoingPromise === undefined || isError(ongoingPromise)) {
             return undefined
         } else {
-            return this.ongoingPromiseValue(key, ongoingPromise);
+            return this.ongoingPromiseValue(key, ongoingPromise)
         }
     }
 
@@ -153,13 +154,13 @@ export class MemoryCache<T> {
     cache: Record<string, T> = {}
 
     get(key: string, orProduce: () => T): T {
-        const cached = this.cache[key];
+        const cached = this.cache[key]
         if (cached !== undefined) {
-            return cached;
+            return cached
         } else {
-            const value = orProduce();
-            this.cache[key] = value;
-            return value;
+            const value = orProduce()
+            this.cache[key] = value
+            return value
         }
     }
 }

@@ -1,5 +1,5 @@
 // A dynamic class is a css class that has a css variable as an input that we specify in the style
-import React from "react";
+import React from "react"
 import "../styles.css"
 
 /**
@@ -14,7 +14,8 @@ export function withStyle<T>(userProps: React.HTMLAttributes<T>, builtinStyle: R
  * Allows inputting values dynamically to a css style that requires certain css variables.
  * See {@link SpacedRow} as an example
  */
-export function withDynamicClass<T>(tagProps: React.HTMLAttributes<T>, dynamicClass: string, dynamicKey: string, dynamicValue: string): React.HTMLAttributes<T> {
+export function withDynamicClass<T>(tagProps: React.HTMLAttributes<T>, dynamicClass: string, dynamicKey: string,
+                                    dynamicValue: string): React.HTMLAttributes<T> {
     return {
         ...tagProps,
         className: mergeClassname(tagProps.className, dynamicClass),
@@ -34,7 +35,8 @@ function mergeClassname(userClassname: string | undefined, builtinClassname: str
 
 
 // Allow `object` in addedStyle to not get compile errors with custom attributes
-function mergeStyle(userStyle: React.CSSProperties | undefined, builtinStyle: React.CSSProperties | object | undefined): React.CSSProperties | undefined {
+function mergeStyle(userStyle: React.CSSProperties | undefined,
+                    builtinStyle: React.CSSProperties | object | undefined): React.CSSProperties | undefined {
     if (userStyle === undefined) return builtinStyle
     if (builtinStyle === undefined) return userStyle
     return {...builtinStyle, ...userStyle}

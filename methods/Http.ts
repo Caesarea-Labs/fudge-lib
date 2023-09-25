@@ -1,14 +1,15 @@
-import {objectMap} from "./Javascript";
-import {Require} from "../types/Basic";
+import {recordToArray} from "./Javascript"
+import {Require} from "../types/Basic"
 
 // import * as nodeFetch from "node-fetch"
 
 
 function parseParameters(parameters?: Record<string, string>): string {
-    if (parameters === undefined) return "";
-    if (Object.values(parameters).length === 0) return "";
-    else {
-        return "?" + objectMap(parameters, (key, value) => `${key}=${value}`).join("&")
+    if (parameters === undefined) return ""
+    if (Object.values(parameters).length === 0) {
+        return ""
+    } else {
+        return "?" + recordToArray(parameters, (key, value) => `${key}=${value}`).join("&")
     }
 }
 
@@ -70,21 +71,23 @@ export interface HttpResponse {
 
 
 export async function httpGet(request: HttpGetRequest): Promise<Response> {
-    return httpCall({...request, method: "GET"});
+    return httpCall({...request, method: "GET"})
 }
 
 
 export async function httpPost(request: HttpPostRequest): Promise<Response> {
-    return httpCall({...request, method: "POST"});
+    return httpCall({...request, method: "POST"})
 }
 
 // Tests can set this to node-fetch because they run on nodejs
-export const fetcher: {fetch: (input: (RequestInfo | URL), init?: RequestInit) => Promise<Response> } = {
-    fetch: typeof window !== "undefined" ? fetch: () => {throw new Error("Fetcher must be set in test")}
+export const fetcher: { fetch: (input: (RequestInfo | URL), init?: RequestInit) => Promise<Response> } = {
+    fetch: typeof window !== "undefined" ? fetch : () => {
+        throw new Error("Fetcher must be set in test")
+    }
 }
 
 async function httpCall(request: HttpRequest): Promise<Response> {
-    const actualUrl = request.url + parseParameters(request.parameters);
+    const actualUrl = request.url + parseParameters(request.parameters)
 
     const requestObject: RequestInit = {
         method: request.method,
@@ -92,8 +95,8 @@ async function httpCall(request: HttpRequest): Promise<Response> {
         headers: request.headers,
         mode: "cors"
     }
-    
-    return typeof window !== "undefined" ? fetch(actualUrl,requestObject) : fetcher.fetch(actualUrl,requestObject)
+
+    return typeof window !== "undefined" ? fetch(actualUrl, requestObject) : fetcher.fetch(actualUrl, requestObject)
 }
 
 interface HttpRequest {

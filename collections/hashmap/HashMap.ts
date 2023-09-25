@@ -1,11 +1,11 @@
-import {equalsOfAnything} from "./EqualsImplementation";
-import {LinkedList} from "../LinkedList";
-import {hashCodeOfAnything} from "./Hashing";
+import {equalsOfAnything} from "./EqualsImplementation"
+import {LinkedList} from "../LinkedList"
+import {hashCodeOfAnything} from "./Hashing"
 
-const InitialCapacityPadding = 1.35;
-const DefaultCapacity = 16;
-const LoadFactor = 0.75;
-const SizeIncreaseMultiplier = 1.5;
+const InitialCapacityPadding = 1.35
+const DefaultCapacity = 16
+const LoadFactor = 0.75
+const SizeIncreaseMultiplier = 1.5
 
 export interface Dict<K, V> {
     get(key: K): V | undefined;
@@ -36,15 +36,15 @@ export interface MutableDict<K, V> extends Dict<K, V> {
 export class HashMap<K, V> implements MutableDict<K, V> {
     private capacity: number
     // Not as efficient as it could be - a LinkedList would make inserting more performant
-    private buckets: MapBucket<K, V>[];
-    private _size = 0;
-    private _bucketsFilled = 0;
+    private buckets: MapBucket<K, V>[]
+    private _size = 0
+    private _bucketsFilled = 0
 
     ////////// Constructors ////////////
     constructor(capacity: number | undefined) {
         // Pad some space for better performance
-        this.capacity = capacity === undefined ? DefaultCapacity : Math.ceil(capacity * InitialCapacityPadding);
-        this.buckets = new Array<MapBucket<K, V>>(this.capacity);
+        this.capacity = capacity === undefined ? DefaultCapacity : Math.ceil(capacity * InitialCapacityPadding)
+        this.buckets = new Array<MapBucket<K, V>>(this.capacity)
     }
 
     static fromArray<K, V>(items: Entry<K, V>[]): HashMap<K, V> {
@@ -52,28 +52,28 @@ export class HashMap<K, V> implements MutableDict<K, V> {
         for (const item of items) {
             map.putEntry(item)
         }
-        return map;
+        return map
     }
 
-    static fromPairArray<K,V>(array: [K,V][]): HashMap<K, V> {
+    static fromPairArray<K, V>(array: [K, V][]): HashMap<K, V> {
         const map = new HashMap<K, V>(array.length)
         for (const [key, value] of array) {
             map.put(key, value)
         }
-        return map;
+        return map
     }
 
-    private static Empty = new HashMap(0);
+    private static Empty = new HashMap(0)
 
     static empty<K, V>(): Dict<K, V> {
-        return this.Empty as Dict<K, V>;
+        return this.Empty as Dict<K, V>
     }
 
 
     //////// Primary API //////////
 
     get(key: K): V | undefined {
-        return this.getEntry(key)?.value;
+        return this.getEntry(key)?.value
     }
 
     put(key: K, value: V) {
@@ -82,7 +82,7 @@ export class HashMap<K, V> implements MutableDict<K, V> {
 
 
     get size(): number {
-        return this._size;
+        return this._size
     }
 
     /////////// Utility //////////
@@ -96,70 +96,70 @@ export class HashMap<K, V> implements MutableDict<K, V> {
     }
 
     map<NK, NV>(keyMap: (key: K, value: V) => NK, valueMap: (key: K, value: V) => NV): HashMap<NK, NV> {
-        const newMap = new HashMap<NK, NV>(this.capacity);
+        const newMap = new HashMap<NK, NV>(this.capacity)
         this.forEach((key, value) => newMap.put(keyMap(key, value), valueMap(key, value)))
-        return newMap;
+        return newMap
     }
 
     filter(filterer: (key: K, value: V) => boolean): HashMap<K, V> {
-        const newMap = new HashMap<K, V>(this.capacity);
+        const newMap = new HashMap<K, V>(this.capacity)
         this.forEach((key, value) => {
             if (filterer(key, value)) {
                 newMap.put(key, value)
             }
         })
-        return newMap;
+        return newMap
     }
 
 
     linearSearch(func: (key: K, value: V) => boolean): V | undefined {
         for (let i = 0; i < this.buckets.length; i++) {
-            const bucket = this.buckets[i];
-            if (bucket === undefined) continue;
+            const bucket = this.buckets[i]
+            if (bucket === undefined) continue
             const found = bucket.find(({key, value}) => func(key, value))
-            if (found !== undefined) return found.value;
+            if (found !== undefined) return found.value
         }
-        return undefined;
+        return undefined
     }
 
     copy(): HashMap<K, V> {
-        const newMap = new HashMap<K, V>(this.capacity);
+        const newMap = new HashMap<K, V>(this.capacity)
         for (let i = 0; i < this.buckets.length; i++) {
-            const bucket = this.buckets[i];
-            newMap.buckets[i] = bucket.copyReversed();
+            const bucket = this.buckets[i]
+            newMap.buckets[i] = bucket.copyReversed()
         }
-        return newMap;
+        return newMap
     }
 
     toArray<T>(map: (key: K, value: V) => T): T[] {
         const arr = new Array<T>()
-        let i = 0;
+        let i = 0
         this.forEach((k, v) => {
             arr[i] = map(k, v)
-            i++;
+            i++
         })
-        return arr;
+        return arr
     }
 
     /**
      * If contains `key`, returns its value and does not mutate the map
-     * If doesn't contain `key`, sets map[key] = value and returns undefined
+     * If it doesn't contain `key`, sets map[key] = value and returns undefined
      */
     putIfAbsent(key: K, value: V): V | undefined {
         const entry = this.getEntry(key)
         if (entry !== null) {
-            return entry?.value;
+            return entry?.value
         } else {
             this.put(key, value)
-            return undefined;
+            return undefined
         }
     }
 
     plus(other: HashMap<K, V>): HashMap<K, V> {
-        const resultMap: HashMap<K, V> = new HashMap(this.capacity + other.capacity);
+        const resultMap: HashMap<K, V> = new HashMap(this.capacity + other.capacity)
         this.forEachImpl(this.buckets, entry => resultMap.putEntry(entry))
         this.forEachImpl(other.buckets, entry => resultMap.putEntry(entry))
-        return resultMap;
+        return resultMap
     }
 
 
@@ -167,57 +167,57 @@ export class HashMap<K, V> implements MutableDict<K, V> {
 
     putEntry(newEntry: Entry<K, V>) {
         const hash = this.getHash(newEntry.key)
-        const entry = this.getEntry(newEntry.key, hash);
+        const entry = this.getEntry(newEntry.key, hash)
         if (entry !== undefined) {
-            entry.value = newEntry.value;
+            entry.value = newEntry.value
         } else {
             if (this.buckets[hash] === undefined) {
-                this.buckets[hash] = new LinkedList();
-                this._bucketsFilled++;
+                this.buckets[hash] = new LinkedList()
+                this._bucketsFilled++
             }
-            this.buckets[hash].prepend(newEntry);
-            this._size++;
+            this.buckets[hash].prepend(newEntry)
+            this._size++
 
             // If the map is starting to get too full we should expand it
-            if (this._bucketsFilled > this.capacity * LoadFactor) this.expand();
+            if (this._bucketsFilled > this.capacity * LoadFactor) this.expand()
         }
     }
 
     private expand() {
-        this.capacity = Math.floor(this.capacity * SizeIncreaseMultiplier);
-        const oldBuckets = this.buckets;
+        this.capacity = Math.floor(this.capacity * SizeIncreaseMultiplier)
+        const oldBuckets = this.buckets
         // Delete all buckets and do over
-        this.buckets = new Array<MapBucket<K, V>>(this.capacity);
-        this._bucketsFilled = 0;
-        this._size = 0;
+        this.buckets = new Array<MapBucket<K, V>>(this.capacity)
+        this._bucketsFilled = 0
+        this._size = 0
         this.forEachImpl(oldBuckets, (entry) => this.putEntry(entry))
     }
 
 
     private getHash(key: K): number {
-        return (hashCodeOfAnything(key) & 0xfffffff) % this.capacity;
+        return (hashCodeOfAnything(key) & 0xfffffff) % this.capacity
     }
 
     private getEntry(key: K, hash?: number): Entry<K, V> | undefined {
-        const usedHash = hash ?? this.getHash(key);
+        const usedHash = hash ?? this.getHash(key)
         const bucket = this.buckets[usedHash]
-        if (bucket === undefined) return undefined;
-        return bucket.find(entry => equalsOfAnything(entry.key, key));
+        if (bucket === undefined) return undefined
+        return bucket.find(entry => equalsOfAnything(entry.key, key))
     }
 
     private forEachImpl(buckets: MapBucket<K, V>[], func: (entry: Entry<K, V>) => void) {
         for (let i = 0; i < buckets.length; i++) {
-            const bucket = buckets[i];
+            const bucket = buckets[i]
             bucket?.forEach((entry) => func(entry))
         }
     }
 
     toRecord<NK extends string, NV>(keyMap: (key: K, value: V) => NK, valueMap: (key: K, value: V) => NV): Record<NK, NV> {
-        const record = {} as Record<NK, NV>;
+        const record = {} as Record<NK, NV>
         this.forEach((k, v) => {
-            record[keyMap(k, v)] = valueMap(k, v);
+            record[keyMap(k, v)] = valueMap(k, v)
         })
-        return record;
+        return record
     }
 
     toSameRecord(): Record<string, V> {

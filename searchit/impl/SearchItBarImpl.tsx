@@ -1,9 +1,9 @@
-import {CSSProperties, Fragment, MouseEventHandler, useEffect, useState} from "react";
-import { completionsEqual } from "./CompletionUtils";
-import {Completion} from "../SearchitBar";
-import {useKeyboardShortcut} from "../../react/Keyboard";
+import {CSSProperties, Fragment, MouseEventHandler, useEffect, useState} from "react"
+import {completionsEqual} from "./CompletionUtils"
+import {Completion} from "../SearchitBar"
+import {useKeyboardShortcut} from "../../react/Keyboard"
 import styles from "./searchit.module.css"
-import {AppTheme} from "../../AppTheme";
+import {AppTheme} from "../../AppTheme"
 
 
 interface AutoCompleteContentProps {
@@ -47,8 +47,9 @@ function NonEmptyAutocompleteContent(props: AutoCompleteContentProps) {
             // Wrap around when end is reached
             const newIndex = index < items.length - 1 ? index + 1 : 0
             // Move visible window down if edge has been reached
-            if (newIndex > lastVisibleIndex) setFirstVisibleIndex(oldStart => oldStart + 1)
-            // In case we have wrapped around to the start - set first visible item accordingly
+            if (newIndex > lastVisibleIndex) {
+                setFirstVisibleIndex(oldStart => oldStart + 1)
+            }// In case we have wrapped around to the start - set first visible item accordingly
             else if (newIndex === 0) setFirstVisibleIndex(0)
 
             setActiveItem(items.getOrThrow(newIndex))
@@ -62,8 +63,9 @@ function NonEmptyAutocompleteContent(props: AutoCompleteContentProps) {
             // Wrap around when end is reached
             const newIndex = index > 0 ? index - 1 : items.length - 1
             // Move visible window up if edge has been reached
-            if (newIndex < firstVisibleIndex) setFirstVisibleIndex(oldStart => oldStart - 1)
-            // In case we have wrapped around to the end - set first visible item accordingly
+            if (newIndex < firstVisibleIndex) {
+                setFirstVisibleIndex(oldStart => oldStart - 1)
+            }// In case we have wrapped around to the end - set first visible item accordingly
             else if (newIndex === items.length - 1) setFirstVisibleIndex(items.length - MaxItems)
 
             setActiveItem(items.getOrThrow(newIndex))
@@ -90,7 +92,7 @@ function NonEmptyAutocompleteContent(props: AutoCompleteContentProps) {
                                                              e.preventDefault()
                                                              props.onSelectItem(item)
                                                          }}/>)}
-        { <div className={styles.loader} style={{alignSelf: "center"}}/>}
+        {<div className={styles.loader} style={{alignSelf: "center"}}/>}
     </div>
 }
 
@@ -122,15 +124,15 @@ const LeftClick = 0
 
 /**
  * For example, given completion item 'Hello', and typed 'el', it will return {before: 'H', typed: 'el', after: 'lo'}
- * This is a generic solution designed to make it so no matter what logic the completables use to showing thing, the 'typed' part will always make sense.
- * More improvements can be made to perhaps split into more parts in case the typed part is scattered through the word.
+ * This is a generic solution designed to make it so no matter what logic the completables use to showing thing, the 'typed' part will always make
+ * sense. More improvements can be made to perhaps split into more parts in case the typed part is scattered through the word.
  */
 function breakDownItemIntoTypedAndNonTyped(item: string, typedWord: string):
     { before: string, typed: string, after: string } {
     const index = item.toLowerCase().indexOf(typedWord.toLowerCase())
     // TypedWord is not identified in item: just display everything normally
     if (index === -1) return {before: item, typed: "", after: ""}
-    return {before: item.slice(0, index), typed: item.slice(index,index + typedWord.length), after: item.slice(index + typedWord.length)}
+    return {before: item.slice(0, index), typed: item.slice(index, index + typedWord.length), after: item.slice(index + typedWord.length)}
 }
 
 // const AutocompleteOptions = styled("div")(

@@ -1,16 +1,15 @@
-
 export class Lazy<T> {
     private value: T | undefined
     private readonly init: () => T
 
     constructor(init: () => T) {
-        this.init = init;
+        this.init = init
     }
 
     get(): T {
         if (this.value === undefined) {
-            this.value = this.init();
+            this.value = this.init()
         }
-        return this.value;
+        return this.value
     }
 }

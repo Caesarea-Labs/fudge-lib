@@ -1,3 +1,3 @@
-export function check<T>(value: T) : T {
+export function check<T>(value: T): T {
     return value
 }

@@ -1,4 +1,3 @@
-
 /**
  * When you have a function that sometimes gets called too many times in a short span without your control,
  * you can use this call to deduplicate your calls.
@@ -11,7 +10,7 @@ export class CallDeduplicator<T> {
 
     /**
      * @param duplicateIntervalMs The amount of time in milliseconds that if multiple calls happen in that timespan,
-     * the call() callback won't be called again and will instead reused the previous value
+     * the call() callback won't be called again and will instead reuse the previous value
      */
     constructor(duplicateIntervalMs: number) {
         this.duplicateIntervalMs = duplicateIntervalMs

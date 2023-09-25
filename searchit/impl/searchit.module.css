@@ -1,7 +1,7 @@
 .textfieldInput {
     width: 100%;
     margin: 0;
-    font-family: "Roboto","Helvetica","Arial",sans-serif;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
     color: rgba(var(--text), 0.8);
     font-weight: 400;
     font-size: 1rem;
@@ -10,7 +10,7 @@
     background-color: transparent;
     outline: none;
     border-color: transparent;
-    padding:0.4rem;
+    padding: 0.4rem;
 }
 
 .inputWrapper {
@@ -40,9 +40,12 @@
     background-color: var(--extra-contrast-surface);
     border: 1px solid var(--border);
     border-radius: 5px;
+
     > :not(:last-child) {
         border-bottom: 1px solid var(--border)
-    };
+    }
+;
+
     > * {
         padding: 5px;
     }
@@ -59,8 +62,12 @@
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 

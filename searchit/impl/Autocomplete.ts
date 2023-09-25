@@ -42,7 +42,8 @@ export interface AutoComplete {
 
     /**
      * This is a hack we use to get the coordinates of the caret given an index.
-     * We place an invisible span identical to the input field. Then when we want to get the relative position of text,
+     * We place an invisible span identical to the input field.
+     * Then when we want to get the relative position of text,
      * we use a range to check the text. We can then apply the same values to our input field.
      */
     textHackRef: RefObject<HTMLSpanElement>
@@ -69,7 +70,7 @@ export const AutoCompleteWidthPx = 300
 export function useAutoComplete(config: AutoCompleteConfig, queryState: State<string>): AutoComplete {
     // we hold a separate state, because a new value is submitted only sometimes, and we need to take care of every single character change
     // This value is aware of every character change, the input value and onSubmit is only aware of submission changes (Enter pressed, lost focus,
-    // etc)
+    // etc.)
     const textState = useStateObject(queryState.value)
     const [text, setText] = textState.destruct()
 
@@ -215,7 +216,7 @@ export function useAutoComplete(config: AutoCompleteConfig, queryState: State<st
         if (input === null) return 0
 
         const {relative, absolute} = getTextX(getStartOfWordIndex())
-        // If the autocomplete will not overflow place it to the right of the text
+        // If the autocomplete will not overflow, place it to the right of the text
         if (absolute + AutoCompleteWidthPx < window.innerWidth) {
             return relative
         }// If the autocomplete will overflow place it on the left of the text

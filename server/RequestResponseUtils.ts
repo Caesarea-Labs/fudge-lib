@@ -12,7 +12,7 @@ import {defaultJsonSerializer, JsonSerializer} from "../json.ts"
 export type Result<S, E = void> = (ResultSuccess<S> | ResultError<E>) & IsCheckable<S, E>
 
 
-export async function doRequest<Suc,Err = void>(endpoint: string, req: unknown, json?: JsonSerializer<never>): Promise<Result<Suc, Err>> {
+export async function doRequest<Suc, Err = void>(endpoint: string, req: unknown, json?: JsonSerializer<never>): Promise<Result<Suc, Err>> {
     let response: Response
     try {
         response = await fetch("https://vslerjhfciu6npaim4tdlm4bhu0quzjr.lambda-url.eu-central-1.on.aws/", {
@@ -29,11 +29,14 @@ export async function doRequest<Suc,Err = void>(endpoint: string, req: unknown, 
     const body = await response.text()
     let parsed: never
     try {
-        parsed = (json?? defaultJsonSerializer()).parse(body)
+        parsed = (json ?? defaultJsonSerializer()).parse(body)
     } catch (e) {
-        if (response.ok) throw e
-        // If we can't parse it, we assume it's a generic error
-        else return requestCodeError(body, response.status)
+        if (response.ok) {
+            throw e
+        }// If we can't parse it, we assume it's a generic error
+        else {
+            return requestCodeError(body, response.status)
+        }
     }
     if (response.ok) {
         return requestSuccess(parsed)
@@ -86,7 +89,8 @@ export type ResultSuccess<S> = AsObject<S>
 export type ResultError<E> = CustomError<E> | GenericError
 export type CustomError<E> = AsObject<E>
 
-export type AsObject<T> = T extends object ? T : T extends string ? StringWrapper : T extends boolean ? BooleanWrapper : T extends number ? NumberWrapper :
+export type AsObject<T> = T extends object ? T : T extends string ? StringWrapper : T extends boolean ? BooleanWrapper : T extends number
+    ? NumberWrapper :
     T extends void | undefined ? VoidResponse : never
 export type BooleanWrapper = {
     isTrue: boolean
@@ -151,6 +155,7 @@ function transferProps<F, T extends F>(from: F, to: T) {
         to[prop] = from[prop]
     }
 }
+
 function typeChecks<S, E>({ok, fetchError, customError, codeError}: {
     ok: boolean,
     fetchError: boolean,
@@ -165,7 +170,7 @@ function typeChecks<S, E>({ok, fetchError, customError, codeError}: {
     }
 }
 
-// We need the returned result to always be an object so we can put the isOk and isErr methods
+// We need the returned result to always be an object, so we can put the isOk and isErr methods
 function wrapToObject<T>(item: T): AsObject<T> {
     switch (typeof item) {
         case "undefined": {

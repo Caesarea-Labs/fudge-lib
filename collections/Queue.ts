@@ -1,51 +1,51 @@
 export class Queue<T> {
-    head: Node<T> | null = null;
-    tail: Node<T> | null = null;
+    head: Node<T> | null = null
+    tail: Node<T> | null = null
 
     constructor(initialValue: T) {
-        this.head = {next: null, prev: null, data: initialValue};
-        this.tail = this.head;
+        this.head = {next: null, prev: null, data: initialValue}
+        this.tail = this.head
     }
 
-    push(value: T){
+    push(value: T) {
         if (this.tail === null) {
-            this.head = {next: null, prev: null, data: value};
-            this.tail = this.head;
+            this.head = {next: null, prev: null, data: value}
+            this.tail = this.head
         } else {
-            const newNode = {next: null, prev: this.tail, data: value};
-            this.tail.next = newNode;
-            this.tail = newNode;
+            const newNode = {next: null, prev: this.tail, data: value}
+            this.tail.next = newNode
+            this.tail = newNode
         }
     }
 
     dequeue(): T | null {
         if (this.head === null) {
-            return null;
+            return null
         } else {
-            const value = this.head.data;
-            this.head = this.head.next;
+            const value = this.head.data
+            this.head = this.head.next
             if (this.head === null) {
-                this.tail = null;
+                this.tail = null
             }
-            return value;
+            return value
         }
     }
 
     isNotEmpty(): boolean {
-        return this.head !== null;
+        return this.head !== null
     }
 
     toString(): string {
-        let current = this.head;
-        let result = '[';
+        let current = this.head
+        let result = "["
         while (current !== null) {
-            result += `${current.data}`;
-            current = current.next;
+            result += `${current.data}`
+            current = current.next
             if (current !== null) {
-                result += ', ';
+                result += ", "
             }
         }
-        return result + "]";
+        return result + "]"
     }
 }
 

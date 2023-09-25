@@ -1,5 +1,5 @@
 import {useState} from "react"
-import { TsKey } from "../types/Basic.ts"
+import {TsKey} from "../types/Basic.ts"
 
 
 /**
@@ -7,12 +7,14 @@ import { TsKey } from "../types/Basic.ts"
  */
 export interface StateRecord<K extends TsKey, V> {
     delete(key: K): void
+
     set(key: K, value: V): void
-    values() : V[]
+
+    values(): V[]
 }
 
-export function useStateRecord<K extends TsKey, V>(initialRecord?: Record<K,V>): StateRecord<K,V> {
-    const [record,setRecord]  = useState<Record<K,V>>(initialRecord ?? {} as Record<K, V>)
+export function useStateRecord<K extends TsKey, V>(initialRecord?: Record<K, V>): StateRecord<K, V> {
+    const [record, setRecord] = useState<Record<K, V>>(initialRecord ?? {} as Record<K, V>)
     return {
         delete(key: K) {
             setRecord(old => {
