@@ -1,5 +1,5 @@
 import {useState} from "react"
-import {TsKey} from "../types/Basic.ts"
+import {TsKey} from "../types/Basic"
 
 
 /**

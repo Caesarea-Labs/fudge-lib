@@ -1,4 +1,4 @@
-import {defaultJsonSerializer, JsonSerializer} from "../json.ts"
+import {defaultJsonSerializer, JsonSerializer} from "../json"
 
 /**
  * Denotes a server response.
