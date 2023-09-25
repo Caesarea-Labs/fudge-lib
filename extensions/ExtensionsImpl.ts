@@ -1,3 +1,5 @@
+// noinspection JSDeprecatedSymbols
+
 import "./Extensions"
 import {TsKey} from "../types/Basic"
 import {HashSet} from "../collections/hashmap/HashSet"
@@ -132,8 +134,6 @@ String.prototype.isDigit = function (this: string): boolean {
             return false
     }
 }
-
-
 String.prototype.removeAfterFirst = function (this: string, removeAfter: string): string {
     return this.removeAfterFirstInclusive(removeAfter)
 }

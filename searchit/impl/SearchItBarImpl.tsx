@@ -83,15 +83,15 @@ function NonEmptyAutocompleteContent(props: AutoCompleteContentProps) {
     const visibleItems = items.filter((_, i) => i >= firstVisibleIndex && i <= lastVisibleIndex)
 
     return <div style={props.style} className={props.className + ` ${styles.autocompleteItems}`}>
-        {visibleItems.map((item, i) => <AutoCompleteItem typedWord={props.typedWord}
-                                                         active={completionsEqual(activeItem, item)}
-                                                         key={item.label + item.newText}
-                                                         item={item.label}
-                                                         onLeftClick={(e) => {
-                                                             // Don't lose focus in the text field
-                                                             e.preventDefault()
-                                                             props.onSelectItem(item)
-                                                         }}/>)}
+        {visibleItems.map((item) => <AutoCompleteItem typedWord={props.typedWord}
+                                                      active={completionsEqual(activeItem, item)}
+                                                      key={item.label + item.newText}
+                                                      item={item.label}
+                                                      onLeftClick={(e) => {
+                                                          // Don't lose focus in the text field
+                                                          e.preventDefault()
+                                                          props.onSelectItem(item)
+                                                      }}/>)}
         {<div className={styles.loader} style={{alignSelf: "center"}}/>}
     </div>
 }

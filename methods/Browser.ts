@@ -19,8 +19,7 @@ export function getCookieValue(name: string): string | undefined {
     const cookies = document.cookie.split("; ")
     const targetCookie = cookies.find(row => row.startsWith(name + "="))
     if (targetCookie === undefined) return undefined
-    const [key, value] = targetCookie.split("=")
-    return value
+    return targetCookie.removeBeforeFirstExclusive("=")
 }
 
 const complexCookiePrefix = "__"
