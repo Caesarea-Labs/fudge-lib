@@ -13,9 +13,6 @@
     --primary: rgb(0, 217, 255)
 }
 
-/*setTimeout(function(){debugger;}, 5000)
-
-*/
 /*Light theme*/
 .light {
     --background: rgb(255, 255, 255);
@@ -40,6 +37,8 @@
     flex-direction: column;
 }
 
+
+/*Used in SpacedRow*/
 .spaced-row {
     & > *:not(:last-child) {
         /*Value provided via JS */
@@ -47,7 +46,7 @@
         margin-right: var(--row-space)
     }
 }
-
+/*Used in SpacedColumn*/
 .spaced-column {
     & > *:not(:last-child) {
         /*noinspection CssUnresolvedCustomProperty*/

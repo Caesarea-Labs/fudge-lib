@@ -1,7 +1,8 @@
 import {RefObject, useEffect} from "react";
 
 /**
- * Must run initKeyboardShortcuts() first (before ReactDOM.createRoot())
+ * Allows listening to a keyboard shortcut, see {@link KeyboardShortcutConfig}
+ * Must run {@link initKeyboardShortcuts()} first (before ReactDOM.createRoot())
  */
 export function useKeyboardShortcut(config: KeyboardShortcutConfig, deps?: unknown[]) {
     useEffect(() => {
@@ -80,6 +81,7 @@ interface KeyboardShortcutConfig {
     overrideable?: boolean
 }
 
+////// Implementation /////
 class KeyboardShortcut {
     readonly config: KeyboardShortcutConfig
 

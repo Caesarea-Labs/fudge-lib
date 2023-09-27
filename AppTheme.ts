@@ -1,3 +1,7 @@
+/**
+ * Theme colors that can be used in styles.
+ * Under the hood it's a shorthand for doing "var(--xxx)" for accessing theme variables
+ */
 export namespace AppTheme {
     export const background = "var(--background)"
     export const surface = "var(--surface)"

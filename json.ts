@@ -1,6 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 import dayjs from "dayjs";
 
+/**
+ * Considering there are multiple ways to serialize a value into JSON, fudge-lib api methods
+ * accept a JsonSerializer when automatic JSON serialization is involved.
+ * Use {@link defaultJsonSerializer} when you don't need a custom implementation.
+ */
 export interface JsonSerializer<T> {
     stringify(obj: unknown): string
 
@@ -33,7 +38,7 @@ function isIsoString(string: string): boolean {
     if (string.length !== 24) return false
     for (let i = 0; i < string.length; i++) {
         const char = string[i]
-        // This is faster than it looks because it usually exits at the first branch
+        // This is faster than it looks because it usually exits at the first branch or the length check above
         if (i <= 3) {
             if (!char.isDigit()) return false
         } else if (i === 4) {
