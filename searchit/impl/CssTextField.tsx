@@ -22,7 +22,6 @@ export function CssTextField(props: {
     const {error, state, leadingIcon, inputRef, ...inputProps} = props
     const divStyle = {borderColor: props.error !== undefined ? AppTheme.error : undefined}
     // const test = withClassName(inputProps, styles.input)
-    // console.log("Div style", divs)
     return <Column style={{width: "100%"}}>
         {/*Balance the bottom placeholder text so the input will be centered*/}
         {PlaceHolderText(errorTextSize)}

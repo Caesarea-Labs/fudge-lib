@@ -9,8 +9,11 @@ export namespace AppTheme {
     export const contrastText = "var(--contrast-text)"
     export const hover = "var(--hover)"
     export const error = "var(--error)"
+    export const warn = "var(--warn)"
     export const selected = "var(--selected)"
     export const border = "var(--border)"
     export const text = "var(--text)"
+    export const debug = "var(--debug)"
     export const primary = "var(--primary)"
+    export const subtitleText = "var(--subtitle-text)"
 }

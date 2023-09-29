@@ -1,29 +1,43 @@
 :root {
+    --primary: rgb(0, 217, 255);
+
     /*Dark colors*/
+    --text: rgb(255, 255, 255);
+    --contrast-text: rgb(199, 198, 181);
+    --subtitle-text: rgb(150,150,150);
+
+    --warn: yellow;
+    --error: red;
+    --debug: green;
+
     --background: rgb(28, 28, 28);
     --surface: rgb(40, 40, 40);
     --contrast-surface: rgb(50, 50, 50);
     --extra-contrast-surface: rgb(60, 60, 60);
-    --contrast-text: rgb(199, 198, 181);
-    --hover: rgba(0, 88, 150, 0.15);
-    --error: rgba(255, 0, 0);
-    --selected: rgba(0, 88, 150, 0.5);
     --border: rgb(86, 86, 86);
-    --text: rgb(255, 255, 255);
-    --primary: rgb(0, 217, 255)
+
+    --hover: rgba(0, 88, 150, 0.15);
+    --selected: rgba(0, 88, 150, 0.5);
+
 }
 
 /*Light theme*/
 .light {
+    --primary: rgb(0, 102, 255);
+
+    --text: rgb(0, 0, 0);
+    --contrast-text: rgb(52, 51, 47);
+    --subtitle-text: rgb(120,120,120);
+
+    --warn: orange;
+
     --background: rgb(255, 255, 255);
     --surface: rgb(240, 240, 240);
     --contrast-surface: rgb(220, 220, 220);
     --extra-contrast-surface: rgb(215, 215, 215);
-    --contrast-text: rgb(52, 51, 47);
-    --selected: rgba(155, 202, 239, 0.5);
-    --text: rgb(0, 0, 0);
     --border: rgb(150, 150, 150);
-    --primary: rgb(0, 102, 255);
+
+    --selected: rgba(155, 202, 239, 0.5);
 }
 
 /*Flow*/
