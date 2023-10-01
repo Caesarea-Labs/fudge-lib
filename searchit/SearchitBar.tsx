@@ -68,6 +68,7 @@ export interface Completion {
 
 /**
  * A text field that allows auto-complete.
+ * IMPORTANT: You must call {@link initKeyboardShortcuts} before ReactDom.createRoot() for hotkeys to work.
  * See {@link SearchitProps}
  */
 export function SearchitBar(props: SearchitProps) {
