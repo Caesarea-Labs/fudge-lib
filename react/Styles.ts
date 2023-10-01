@@ -32,7 +32,6 @@ export function withDynamicClass<T>(tagProps: React.HTMLAttributes<T>, dynamicCl
 }
 
 
-
 function mergeClassname(userClassname: string | undefined, builtinClassname: string | undefined): string | undefined {
     if (userClassname === undefined) return builtinClassname
     if (builtinClassname === undefined) return userClassname

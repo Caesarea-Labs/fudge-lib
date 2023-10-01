@@ -4,7 +4,7 @@
     /*Dark colors*/
     --text: rgb(255, 255, 255);
     --contrast-text: rgb(199, 198, 181);
-    --subtitle-text: rgb(150,150,150);
+    --subtitle-text: rgb(150, 150, 150);
 
     --warn: yellow;
     --error: red;
@@ -27,7 +27,7 @@
 
     --text: rgb(0, 0, 0);
     --contrast-text: rgb(52, 51, 47);
-    --subtitle-text: rgb(120,120,120);
+    --subtitle-text: rgb(120, 120, 120);
 
     --warn: orange;
 
@@ -60,6 +60,7 @@
         margin-right: var(--row-space)
     }
 }
+
 /*Used in SpacedColumn*/
 .spaced-column {
     & > *:not(:last-child) {
