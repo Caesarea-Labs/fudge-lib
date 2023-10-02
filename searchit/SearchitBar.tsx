@@ -74,6 +74,8 @@ export interface Completion {
 export function SearchitBar(props: SearchitProps) {
     const autocomplete = useAutoComplete(props.config, props.query)
 
+    console.log(`Y: ${autocomplete.position.y}`)
+
     return <div className={props.className} style={{position: "relative", alignSelf: "center", width: "100%", height: "100%"}}>
         <CssTextField
             error={props.config.error}
@@ -93,13 +95,14 @@ export function SearchitBar(props: SearchitProps) {
             {autocomplete.query.value}
         </span>
 
+
         {/*Position the autocomplete in the exact caret position*/}
         <AutocompleteContent
             className={styles.autocompleteOverlay}
             isLoading={autocomplete.isLoadingCompletions}
             typedWord={autocomplete.currentTypedWord}
             items={autocomplete.completions}
-            style={{left: autocomplete.relativeXPosition, width: AutoCompleteWidthPx}}
+            style={{left: autocomplete.position.x, top: autocomplete.position.y, width: AutoCompleteWidthPx}}
             onSelectItem={(completion) => autocomplete.complete(completion)}/>
     </div>
 

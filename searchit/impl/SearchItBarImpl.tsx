@@ -4,6 +4,10 @@ import {Completion} from "../SearchitBar"
 import {useKeyboardShortcut} from "../../react/Keyboard"
 import styles from "./searchit.module.css"
 import {AppTheme} from "../../AppTheme"
+import {withStyle} from "../../react/Styles.ts"
+import {ReactComponent} from "../../types/React.ts"
+import ReactDOM from "react-dom/client"
+import {createPortal} from "react-dom"
 
 
 interface AutoCompleteContentProps {
@@ -82,18 +86,24 @@ function NonEmptyAutocompleteContent(props: AutoCompleteContentProps) {
 
     const visibleItems = items.filter((_, i) => i >= firstVisibleIndex && i <= lastVisibleIndex)
 
-    return <div style={props.style} className={props.className + ` ${styles.autocompleteItems}`}>
-        {visibleItems.map((item) => <AutoCompleteItem typedWord={props.typedWord}
-                                                      active={completionsEqual(activeItem, item)}
-                                                      key={item.label + item.newText}
-                                                      item={item.label}
-                                                      onLeftClick={(e) => {
-                                                          // Don't lose focus in the text field
-                                                          e.preventDefault()
-                                                          props.onSelectItem(item)
-                                                      }}/>)}
-        {props.isLoading && <div className={styles.loader} style={{alignSelf: "center"}}/>}
-    </div>
+    return <Portal>
+        <div style={props.style}  className={props.className + ` ${styles.autocompleteItems}`}>
+            {visibleItems.map((item) => <AutoCompleteItem typedWord={props.typedWord}
+                                                          active={completionsEqual(activeItem, item)}
+                                                          key={item.label + item.newText}
+                                                          item={item.label}
+                                                          onLeftClick={(e) => {
+                                                              // Don't lose focus in the text field
+                                                              e.preventDefault()
+                                                              props.onSelectItem(item)
+                                                          }}/>)}
+            {props.isLoading && <div className={styles.loader} style={{alignSelf: "center"}}/>}
+        </div>
+    </Portal>
+}
+
+function Portal(props: {children: ReactComponent}) {
+    return createPortal(props.children, document.body)
 }
 
 

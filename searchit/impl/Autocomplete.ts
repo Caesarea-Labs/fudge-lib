@@ -2,14 +2,23 @@ import {RefObject, useEffect, useLayoutEffect, useMemo, useRef, useState} from "
 import {AutoCompleteConfig, Completion} from "../SearchitBar"
 import {useKeyboardShortcut} from "../../react/Keyboard"
 import {State, useStateObject} from "../../state/State"
-import {defaultCompletables} from "../DefaultCompletables";
+import {defaultCompletables} from "../DefaultCompletables"
 
+export interface Point {
+    x: number
+    y: number
+}
 
 export interface AutoComplete {
+    // /**
+    //  * X position of the autocomplete popup relative to the search bar
+    //  */
+    // relativeXPosition: number
+
     /**
-     * X position of the autocomplete popup relative to the search bar
+     * Absolute position of the autocomplete contents
      */
-    relativeXPosition: number
+    position: Point
 
     /**
      * Current content that is being autocompleted
@@ -99,7 +108,8 @@ export function useAutoComplete(config: AutoCompleteConfig, queryState: State<st
     useShortcuts()
 
     return {
-        relativeXPosition: anchor(),
+        position: anchor(),
+        // relativeXPosition: anchor(),
         query: textState,
         inputRef: textAreaRef,
         // setQuery: setText,
@@ -212,17 +222,28 @@ export function useAutoComplete(config: AutoCompleteConfig, queryState: State<st
         }
     }
 
-    function anchor(): number {
+    /**
+     * Calculate the absolute position of where the autocomplete items should be placed
+     */
+    function anchor(): Point {
         const input = textAreaRef.current
-        if (input === null) return 0
+        if (input === null) return {x: 0, y: 0}
 
-        const {relative, absolute} = getTextX(getStartOfWordIndex())
+        return {
+            x: calculateX(),
+            y: input.getBoundingClientRect().bottom + window.scrollY
+        }
+
+    }
+
+    function calculateX(): number {
+        const {absolute} = getTextX(getStartOfWordIndex())
         // If the autocomplete will not overflow, place it to the right of the text
         if (absolute + AutoCompleteWidthPx < window.innerWidth) {
-            return relative
+            return absolute
         }// If the autocomplete will overflow place it on the left of the text
         else {
-            return relative - AutoCompleteWidthPx
+            return absolute - AutoCompleteWidthPx
         }
     }
 

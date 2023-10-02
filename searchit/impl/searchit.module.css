@@ -31,7 +31,7 @@
 
 .autocompleteOverlay {
     position: absolute;
-    margin-top: -25px !important;
+    margin-top: -0.5rem !important;
     z-index: 10000;
 }
 
