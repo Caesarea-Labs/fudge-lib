@@ -4,7 +4,7 @@ import {Completion} from "../SearchitBar"
 import {useKeyboardShortcut} from "../../react/Keyboard"
 import styles from "./searchit.module.css"
 import {AppTheme} from "../../AppTheme"
-import {ReactComponent} from "../../types/React.ts"
+import {ReactComponent} from "../../types/React"
 import {createPortal} from "react-dom"
 
 
