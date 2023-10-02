@@ -11,37 +11,44 @@ import {defaultJsonSerializer, JsonSerializer} from "../json"
  */
 export type Result<S, E = void> = (ResultSuccess<S> | ResultError<E>) & IsCheckable<S, E>
 
+export class HttpServer {
+    private readonly url: string
 
-export async function doRequest<Suc, Err = void>(endpoint: string, req: unknown, json?: JsonSerializer<never>): Promise<Result<Suc, Err>> {
-    let response: Response
-    try {
-        response = await fetch("https://vslerjhfciu6npaim4tdlm4bhu0quzjr.lambda-url.eu-central-1.on.aws/", {
-            body: JSON.stringify({
-                body: req ?? {},
-                endpoint
-            }),
-            method: "POST"
-        })
-    } catch (e: unknown) {
-        return requestFetchError(String(e))
+    constructor(url: string) {
+        this.url = url
     }
 
-    const body = await response.text()
-    let parsed: never
-    try {
-        parsed = (json ?? defaultJsonSerializer()).parse(body)
-    } catch (e) {
-        if (response.ok) {
-            throw e
-        }// If we can't parse it, we assume it's a generic error
-        else {
-            return requestCodeError(body, response.status)
+    async doRequest<Suc, Err = void>(endpoint: string, req: unknown, json?: JsonSerializer<never>): Promise<Result<Suc, Err>> {
+        let response: Response
+        try {
+            response = await fetch(this.url, {
+                body: JSON.stringify({
+                    body: req ?? {},
+                    endpoint
+                }),
+                method: "POST"
+            })
+        } catch (e) {
+            return requestFetchError(e as TypeError)
         }
-    }
-    if (response.ok) {
-        return requestSuccess(parsed)
-    } else {
-        return requestCustomError(parsed)
+
+        const body = await response.text()
+        let parsed: never
+        try {
+            parsed = (json ?? defaultJsonSerializer()).parse(body)
+        } catch (e) {
+            if (response.ok) {
+                throw e
+            }// If we can't parse it, we assume it's a generic error
+            else {
+                return requestCodeError(body, response.status)
+            }
+        }
+        if (response.ok) {
+            return requestSuccess(parsed)
+        } else {
+            return requestCustomError(parsed)
+        }
     }
 }
 
@@ -109,7 +116,7 @@ export type VoidResponse = Record<string, never>
 export type GenericError = FetchError | StatusError
 
 export interface FetchError {
-    error: string
+    error: TypeError
 }
 
 export interface StatusError {
@@ -121,7 +128,7 @@ export function requestSuccess<T>(response: T): ResultSuccess<T> & IsCheckable<n
     return serverResToClientRes(response, true)
 }
 
-export function requestFetchError(error: string): FetchError & IsCheckable<never, never> {
+export function requestFetchError(error: TypeError): FetchError & IsCheckable<never, never> {
     return {
         error,
         ...typeChecks({ok: false, fetchError: true, customError: false, codeError: false})

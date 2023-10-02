@@ -4,9 +4,7 @@ import {Completion} from "../SearchitBar"
 import {useKeyboardShortcut} from "../../react/Keyboard"
 import styles from "./searchit.module.css"
 import {AppTheme} from "../../AppTheme"
-import {withStyle} from "../../react/Styles.ts"
 import {ReactComponent} from "../../types/React.ts"
-import ReactDOM from "react-dom/client"
 import {createPortal} from "react-dom"
 
 
@@ -87,7 +85,7 @@ function NonEmptyAutocompleteContent(props: AutoCompleteContentProps) {
     const visibleItems = items.filter((_, i) => i >= firstVisibleIndex && i <= lastVisibleIndex)
 
     return <Portal>
-        <div style={props.style}  className={props.className + ` ${styles.autocompleteItems}`}>
+        <div style={props.style} className={props.className + ` ${styles.autocompleteItems}`}>
             {visibleItems.map((item) => <AutoCompleteItem typedWord={props.typedWord}
                                                           active={completionsEqual(activeItem, item)}
                                                           key={item.label + item.newText}
@@ -102,7 +100,7 @@ function NonEmptyAutocompleteContent(props: AutoCompleteContentProps) {
     </Portal>
 }
 
-function Portal(props: {children: ReactComponent}) {
+function Portal(props: { children: ReactComponent }) {
     return createPortal(props.children, document.body)
 }
 
