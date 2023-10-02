@@ -29,7 +29,7 @@ export function substringSyncCompletable(completions: Completion[]): Completeabl
 }
 
 /**
- * Simple {@link Completion} that has the label of the specified text and insert a space after completing it.
+ * Simple {@link Completion} that has the label of the specified text and inserts a space after completing it.
  */
 export function insertWithSpaceCompletion(text: string): Completion {
     return {
