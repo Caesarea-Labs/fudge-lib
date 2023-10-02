@@ -275,9 +275,7 @@ export function useAutoComplete(config: AutoCompleteConfig, queryState: State<st
                 }
             }
 
-            //TODO: see if this inspection is correct
-            // eslint-disable-next-line react-hooks/exhaustive-deps
-        }, [relevantText, forceCompletions])
+        }, [relevantText])
         if (!shown || (!(config.alwaysShowCompletions ?? false) && !forceCompletions && relevantText === "")) return []
         //TODO: distinct() call might fail if we have more fields in Completion
         return results.distinct()

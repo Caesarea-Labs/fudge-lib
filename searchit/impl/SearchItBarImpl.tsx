@@ -108,7 +108,9 @@ function AutoCompleteItem(props: {
 
     return <span style={{
         cursor: "pointer",
-        backgroundColor: props.active ? AppTheme.selected : undefined
+        textAlign: "start",
+        backgroundColor: props.active ? AppTheme.selected : undefined,
+        color: AppTheme.text
     }}
                  onMouseDown={(e) => {
                      if (e.button === LeftClick) props.onLeftClick(e)
