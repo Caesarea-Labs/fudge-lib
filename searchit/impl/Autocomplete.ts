@@ -2,6 +2,7 @@ import {RefObject, useEffect, useLayoutEffect, useMemo, useRef, useState} from "
 import {AutoCompleteConfig, Completion} from "../SearchitBar"
 import {useKeyboardShortcut} from "../../react/Keyboard"
 import {State, useStateObject} from "../../state/State"
+import {defaultCompletables} from "../DefaultCompletables";
 
 
 export interface AutoComplete {
@@ -241,7 +242,9 @@ export function useAutoComplete(config: AutoCompleteConfig, queryState: State<st
             let resultsOfText: Completion[] = []
             let canceled = false
 
-            const allCompletions = config.completeables.map(completable => completable.options(relevantText))
+            const allCompletables = config.completeables.concat(defaultCompletables)
+
+            const allCompletions = allCompletables.map(completable => completable.options(relevantText))
 
             setIsLoadingCompletions(true)
             for (const completionPromise of allCompletions) {
