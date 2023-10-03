@@ -42,6 +42,7 @@ export interface AutoCompleteConfig {
     alwaysShowCompletions?: boolean
 }
 
+
 export interface Completeable {
     /**
      * Given the text, what completion options should be shown.

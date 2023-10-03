@@ -1,5 +1,4 @@
-import {Completion} from "./SearchitBar"
-import {insertWithSpaceCompletion, substringSyncCompletable} from "./SyncCompletable"
+import {keyValuesCompletable} from "./SyncCompletable"
 
 const AllDateOptions = [
     "today",
@@ -9,11 +8,11 @@ const AllDateOptions = [
 ]
 
 // Prepend "from/to" to all available dates
-const allDateCompletions: Completion[] = AllDateOptions.flatMap(s => [
-        insertWithSpaceCompletion(`from:${s}`), insertWithSpaceCompletion(`to:${s}`)
-    ]
-)
+// const allDateCompletions: Completion[] = keyValuesCompletable("") AllDateOptions.flatMap(s => [
+//         spacedCompletion(`from:${s}`), spacedCompletion(`to:${s}`)
+//     ]
+// )
 
 
-const dateCompletable = substringSyncCompletable(allDateCompletions)
-export const defaultCompletables = [dateCompletable]
+// const dateCompletable = substringCompletable(allDateCompletions)
+export const defaultCompletables = [keyValuesCompletable("from", AllDateOptions), keyValuesCompletable("to", AllDateOptions)]
