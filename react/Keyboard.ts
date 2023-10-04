@@ -1,3 +1,5 @@
+// noinspection GrazieInspection
+
 import {RefObject, useEffect} from "react"
 
 /**
