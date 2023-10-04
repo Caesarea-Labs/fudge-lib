@@ -29,10 +29,10 @@ export interface AutoCompleteConfig {
      * This is the most important part of configuring the completion.
      * Each value specified here denotes something that can be completed.
      * For example, if you want to allow to complete the text "hello",
-     * add a completeable that returns a "hello" completion when parts of "hello" are present in the text.
+     * add a completable that returns a "hello" completion when parts of "hello" are present in the text.
      * You could also add another completable that completes the text "world", but only when the word starts with "hello", etc.
      */
-    completeables: Completeable[]
+    completables: Completable[]
 
     /**
      * Specify an error that was received as a result of the query to mark the search bar red.
@@ -48,7 +48,7 @@ export interface AutoCompleteConfig {
 }
 
 
-export interface Completeable {
+export interface Completable {
     /**
      * Given the text, what completion options should be shown.
      * The `text` passed here is only the currently typed word and not the entire query

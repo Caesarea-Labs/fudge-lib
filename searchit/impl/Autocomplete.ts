@@ -265,7 +265,7 @@ export function useAutoComplete(config: AutoCompleteConfig, queryState: State<st
             let resultsOfText: Completion[] = []
             let canceled = false
 
-            const allCompletables = config.completeables.concat(defaultCompletables)
+            const allCompletables = config.completables.concat(defaultCompletables)
 
             const allCompletions = allCompletables.map(completable => completable.options(relevantText))
 
@@ -296,7 +296,7 @@ export function useAutoComplete(config: AutoCompleteConfig, queryState: State<st
             return () => {
                 canceled = true
                 // Cancel http requests and such that are needed to get some completion values
-                for (const completable of config.completeables) {
+                for (const completable of config.completables) {
                     completable.cancel(relevantText)
                 }
             }

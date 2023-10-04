@@ -1,11 +1,11 @@
-import {Completeable, Completion} from "./SearchitBar"
+import {Completable, Completion} from "./SearchitBar"
 
 
 /**
  * Easy implementation for completable that assumes no server work is needed for getting the completion results.
  * For server-based completions, implement `Completable` directly.
  */
-export function syncCompletable(options: (text: string) => Completion[]): Completeable {
+export function syncCompletable(options: (text: string) => Completion[]): Completable {
     return {
         options: (text) => {
             const value = options(text)
@@ -20,7 +20,7 @@ export function syncCompletable(options: (text: string) => Completion[]): Comple
 /**
  * Easiest implementation for completable - will simply show all completions that are a superstring of the typed word (Case-insensitive).
  */
-export function substringCompletable(completions: Completion[]): Completeable {
+export function substringCompletable(completions: Completion[]): Completable {
     return syncCompletable(text => {
         return completions.filter(completion => {
             const lowercaseLabel = completion.label.toLowerCase()
@@ -33,7 +33,7 @@ export function substringCompletable(completions: Completion[]): Completeable {
 /**
  * Completes the key with the given values in a key-value expression.
  */
-export function keyValuesCompletable(key: string, values: string[]): Completeable {
+export function keyValuesCompletable(key: string, values: string[]): Completable {
     const keyExpression = key + ":"
     const lowercaseKey = keyExpression.toLowerCase()
     return syncCompletable(text => {
