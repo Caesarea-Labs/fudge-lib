@@ -1,4 +1,4 @@
-import {RefObject, useEffect} from "react";
+import {RefObject, useEffect} from "react"
 
 /**
  * Allows listening to a keyboard shortcut, see {@link KeyboardShortcutConfig}
@@ -23,9 +23,9 @@ export function initKeyboardShortcuts() {
         if (shortcuts === undefined) return
         shortcuts.sort((shortcut1, shortcut2) => {
             // Without the minus it will be 'lowest priority comes first'. With minus, it's 'highest priority comes first'.
-            return -((shortcut1.config.priority ?? 0) - (shortcut2.config.priority ?? 0));
+            return -((shortcut1.config.priority ?? 0) - (shortcut2.config.priority ?? 0))
         })
-        let firstShortcut = true;
+        let firstShortcut = true
         // Runs the high priority shortcuts first
         for (const shortcut of shortcuts) {
             // Ignore a shortcut if it was overridden (a higher priority shortcut was run before)
@@ -43,11 +43,11 @@ export function initKeyboardShortcuts() {
             }
             firstShortcut = false
         }
-    };
+    }
 
 
     // Attach the event listener when the component mounts
-    document.addEventListener('keydown', handleKeyPress);
+    document.addEventListener("keydown", handleKeyPress)
 }
 
 interface KeyboardShortcutConfig {

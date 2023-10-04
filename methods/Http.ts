@@ -81,8 +81,8 @@ export async function httpPost(request: HttpPostRequest): Promise<Response> {
 
 // Tests can set this to node-fetch because they run on Node.js
 export const fetcher: { fetch: (input: (RequestInfo | URL), init?: RequestInit) => Promise<Response> } = {
-    fetch:   typeof window !== "undefined" ? fetch : () => {
-          throw new Error("Fetcher must be set in test")
+    fetch: typeof window !== "undefined" ? fetch : () => {
+        throw new Error("Fetcher must be set in test")
     }
 }
 

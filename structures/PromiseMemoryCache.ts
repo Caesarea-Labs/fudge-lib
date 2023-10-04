@@ -1,3 +1,5 @@
+// noinspection GrazieInspection
+
 interface OngoingPromiseEntry<T> {
     readonly promise: Promise<T>,
     // May be set to a value if the promise value for the key was replaced by something else.
