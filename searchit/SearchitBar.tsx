@@ -95,10 +95,10 @@ export function SearchitBar(props: SearchitProps) {
                     {
                         visibility: !autocomplete.submitted || props.loading ? undefined : "hidden",
                         animation: props.loading ? undefined : "unset",
-                        "--loader-color-1" :props.loading?  undefined: undefined,
-                        "--loader-color-2": props.loading? undefined: AppTheme.warn,
+                        "--loader-color-1": props.loading ? undefined : undefined,
+                        "--loader-color-2": props.loading ? undefined : AppTheme.warn,
                         "--loader-size": "3px"
-                    },
+                    }
                 )}/>
             }
             inputRef={autocomplete.inputRef}
