@@ -6,7 +6,7 @@ Shared Typescript code used across multiple projects, meant to be used as a Git 
 
 - This should be placed as Git submodule in another repository, in the src directory of the client code.
 - **Mantine, dayjs, and react-icons** must be dependencies of the client project of the main repo. Since this is just
-  pure code, this repo doesn't have a packge.json of its hown and can't pull in libraries of its own.
+  pure code, this repo doesn't have a package.json of its own and can't pull in libraries of its own.
 - In the entrypoint of the main repo client code, the following imports must be used:
 
 ```typescript

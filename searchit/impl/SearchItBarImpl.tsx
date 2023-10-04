@@ -30,7 +30,7 @@ const MaxItems = 10
 function NonEmptyAutocompleteContent(props: AutoCompleteContentProps) {
     const items = props.items
     const [activeItem, setActiveItem] = useState<Completion>(items[0])
-    // We show only part of the completions so they won't overflow out of the screen
+    // We show only part of the completions, so they won't overflow out of the screen
     const [firstVisibleIndex, setFirstVisibleIndex] = useState(0)
     const lastVisibleIndex = Math.min(firstVisibleIndex + MaxItems - 1, items.length - 1)
 

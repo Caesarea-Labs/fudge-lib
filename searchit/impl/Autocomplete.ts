@@ -53,7 +53,7 @@ export interface AutoComplete {
     /**
      * This is a hack we use to get the coordinates of the caret given an index.
      * We place an invisible span identical to the input field.
-     * Then when we want to get the relative position of text,
+     * Then, when we want to get the relative position of text,
      * we use a range to check the text. We can then apply the same values to our input field.
      */
     textHackRef: RefObject<HTMLSpanElement>
@@ -216,7 +216,7 @@ export function useAutoComplete(config: AutoCompleteConfig, queryState: State<st
         const start = text.slice(0, caretPosition.stringIndex).split(" ").dropLast(1).join(" ")
         // Restore the space after the last word preceding the current word if there is one.
         const actualStart = start === "" ? "" : start + " "
-        // Get all of the words after the current one
+        // Get all the words after the current one
         const end = text.slice(caretPosition.stringIndex).split(" ").drop(1).join(" ")
         return {
             newText: actualStart + completion.newText + end,
@@ -240,7 +240,7 @@ export function useAutoComplete(config: AutoCompleteConfig, queryState: State<st
 
     function calculateX(): number {
         const {absolute} = getTextX(getStartOfWordIndex())
-        // If the autocomplete will not overflow, place it to the right of the text
+        // If the autocomplete does not overflow, place it to the right of the text
         if (absolute + AutoCompleteWidthPx < window.innerWidth) {
             return absolute
         }// If the autocomplete will overflow place it on the left of the text

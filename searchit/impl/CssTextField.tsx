@@ -31,7 +31,7 @@ export function CssTextField(props: {
                    onChange={e => props.state.setValue(e.target.value)}/>
         </div>
 
-        {/*Even if there is no error, have hidden text so the component won't enlargen when there's an error*/}
+        {/*Even if there is no error, have hidden text so the component won't enlarge when there's an error*/}
         {props.error === undefined ? PlaceHolderText(errorTextSize) : <span
             style={{color: AppTheme.error, fontSize: errorTextSize}}>{props.error}</span>}
     </Column>

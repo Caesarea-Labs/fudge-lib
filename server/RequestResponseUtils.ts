@@ -55,7 +55,7 @@ export class HttpServer {
 
 export interface IsSuccessCheckable<S> {
     /**
-     * No error occurred and we will now be able to access the success body
+     * No error occurred, and we will now be able to access the success body
      */
     isOk(): this is AsObject<S>
 }
@@ -157,7 +157,7 @@ function serverResToClientRes<T>(response: T, ok: boolean): AsObject<T> & IsChec
 
 function transferProps<F, T extends F>(from: F, to: T) {
     for (const prop in from) {
-        // This is correct idk what it wants
+        // This is correct IDK what it wants
         // @ts-ignore
         to[prop] = from[prop]
     }

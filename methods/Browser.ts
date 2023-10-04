@@ -54,7 +54,7 @@ export function setComplexCookie<T extends object>(name: string, value: T, expir
 
 const UndefinedMarker = "$$$UNDEFINED$$$"
 
-export function getDocumentRelativeRect(element?: Element | null): Rect { // crossbrowser version
+export function getDocumentRelativeRect(element?: Element | null): Rect { // cross-browser version
     if (element === undefined || element === null) return {left: 0, top: 0, width: 0, height: 0}
     const box = element.getBoundingClientRect()
     return {

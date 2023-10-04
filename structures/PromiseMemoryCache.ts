@@ -79,7 +79,7 @@ export class PromiseMemoryCache<T> {
         // Calling this before the delete call is very important
         // so that other viewers of this key have somewhere to go once the ongoingPromise value is lost.
         this.cache[key] = resolvedValue
-        // Promise fulfilled - we can now use the cache instead and we don't need to store the promise anymore.
+        // Promise fulfilled - we can now use the cache instead, and we don't need to store the promise anymore.
         delete this.ongoingPromises[key]
 
         return resolvedValue
