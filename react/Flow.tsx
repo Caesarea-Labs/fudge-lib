@@ -1,5 +1,5 @@
 import React from "react"
-import {withClassName, withDynamicClass} from "./react/Styles"
+import {withClassName, withDynamicClass} from "./Styles.ts"
 
 type DivProps = React.HTMLAttributes<HTMLDivElement>
 

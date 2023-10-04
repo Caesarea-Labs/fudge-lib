@@ -2,7 +2,7 @@
 
 import "./Extensions"
 import {TsKey} from "../types/Basic"
-import {HashSet} from "../collections/hashmap/HashSet"
+import {HashSet} from "../structures/hashmap/HashSet.ts"
 
 export {}
 

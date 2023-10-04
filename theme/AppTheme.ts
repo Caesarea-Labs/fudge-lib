@@ -17,3 +17,7 @@ export namespace AppTheme {
     export const primary = "var(--primary)"
     export const subtitleText = "var(--subtitle-text)"
 }
+
+export function systemIsDarkMode(): boolean {
+    return window.matchMedia !== undefined && window.matchMedia('(prefers-color-scheme: dark)').matches
+}

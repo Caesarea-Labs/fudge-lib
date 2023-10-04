@@ -1,6 +1,5 @@
 // A dynamic class is a css class that has a css variable as an input that we specify in the style
-import React from "react"
-import "../styles.css"
+import React, {CSSProperties} from "react"
 
 /**
  * Adds the given builtin style and classname to the user provided userProps.
@@ -29,6 +28,13 @@ export function withDynamicClass<T>(tagProps: React.HTMLAttributes<T>, dynamicCl
         className: mergeClassname(tagProps.className, dynamicClass),
         style: mergeStyle(tagProps.style, {[`--${dynamicKey}`]: dynamicValue})
     }
+}
+
+/**
+ * Avoids the restrictions of CSSProperties, which allows specifying variable values.
+ */
+export function styleWithVariables(style: CSSProperties | object): CSSProperties {
+    return style as CSSProperties
 }
 
 

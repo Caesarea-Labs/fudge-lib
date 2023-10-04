@@ -3,7 +3,7 @@ import {completionsEqual} from "./CompletionUtils"
 import {Completion} from "../SearchitBar"
 import {useKeyboardShortcut} from "../../react/Keyboard"
 import styles from "./searchit.module.css"
-import {AppTheme} from "../../AppTheme"
+import {AppTheme} from "../../theme/AppTheme"
 import {ReactComponent} from "../../types/React"
 import {createPortal} from "react-dom"
 

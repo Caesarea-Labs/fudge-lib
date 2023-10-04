@@ -1,5 +1,5 @@
 import {State, useStateObject} from "./State";
-import {defaultJsonSerializer, JsonSerializer} from "../json";
+import {defaultJsonSerializer, JsonSerializer} from "../structures/json.ts";
 
 export class PersistentValue<T> {
     private readonly key: string

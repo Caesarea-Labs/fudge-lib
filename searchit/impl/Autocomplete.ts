@@ -164,7 +164,9 @@ export function useAutoComplete(config: AutoCompleteConfig, queryState: State<st
         // Advance caret to the end of the completion
         forceUpdateCaretPosition(completionEndPosition)
         setForceCompletions(false)
-        queryState.setValue(newText)
+        if (completion.terminator !== false) {
+            queryState.setValue(newText)
+        }
     }
 
     function forceUpdateCaretPosition(index: number) {

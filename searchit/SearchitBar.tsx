@@ -1,9 +1,10 @@
 import {AutoCompleteWidthPx, useAutoComplete} from "./impl/Autocomplete"
 import {AutocompleteContent} from "./impl/SearchItBarImpl"
-import {MdRadioButtonUnchecked} from "react-icons/md"
 import {CssTextField} from "./impl/CssTextField"
 import {State} from "../state/State"
 import styles from "./impl/searchit.module.css"
+import {styleWithVariables} from "../react/Styles.ts"
+import {AppTheme} from "../theme/AppTheme.ts"
 
 export interface SearchitProps {
     config: AutoCompleteConfig,
@@ -13,6 +14,10 @@ export interface SearchitProps {
      * This is so the value can be easily consumed on every state change - whenever query changes, do a new network request.
      */
     query: State<string>
+    /**
+     * Should be true when the query changed and new results were not received yet from the server.
+     */
+    loading: boolean
     /**
      * Exposed to allow customizing styles of external div
      */
@@ -53,6 +58,7 @@ export interface Completeable {
      * Method that will cancel getting the options for [text]
      */
     cancel: (text: string) => void
+
 }
 
 export interface Completion {
@@ -64,6 +70,11 @@ export interface Completion {
      * The text that will be inserted instead of the text that user wrote when the completion is selected
      */
     newText: string
+
+    /**
+     * If false, completing this won't trigger an update in the query and won't cause a new search.
+     */
+    terminator?: boolean
 }
 
 
@@ -80,8 +91,15 @@ export function SearchitBar(props: SearchitProps) {
             error={props.config.error}
             state={autocomplete.query}
             leadingIcon={
-                <MdRadioButtonUnchecked size="1.6rem"
-                                        style={{color: "yellow", visibility: autocomplete.submitted ? "hidden" : undefined}}/>
+                <div className={styles.loader} style={styleWithVariables(
+                    {
+                        visibility: !autocomplete.submitted || props.loading ? undefined : "hidden",
+                        animation: props.loading ? undefined : "unset",
+                        "--loader-color-1" :props.loading?  undefined: undefined,
+                        "--loader-color-2": props.loading? undefined: AppTheme.warn,
+                        "--loader-size": "3px"
+                    },
+                )}/>
             }
             inputRef={autocomplete.inputRef}
             onFocus={() => autocomplete.show()}

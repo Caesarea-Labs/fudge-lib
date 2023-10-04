@@ -45,7 +45,7 @@ export function keyValuesCompletable(key: string, values: string[]): Completeabl
                          .map(value => ({label: value, newText: keyExpression + value + " "}))
         } else if (includesPartially(lowercaseKey, lowercaseText)) {
             // Complete key
-            return [identityCompletion(keyExpression)]
+            return [{label: keyExpression, newText: keyExpression, terminator: false}]
         } else {
             return []
         }

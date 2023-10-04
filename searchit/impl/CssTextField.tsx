@@ -2,9 +2,9 @@ import styles from "./searchit.module.css"
 import React, {Ref} from "react"
 import {ReactComponent} from "../../types/React"
 import {State} from "../../state/State"
-import {Column} from "../../Flow"
+import {Column} from "../../react/Flow"
 import {withClassName} from "../../react/Styles"
-import {AppTheme} from "../../AppTheme"
+import {AppTheme} from "../../theme/AppTheme"
 
 //TODO: test errors
 
