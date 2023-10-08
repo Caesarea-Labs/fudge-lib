@@ -91,7 +91,7 @@ export interface Completion {
 export function SearchitBar(props: SearchitProps) {
     const autocomplete = useAutoComplete(props.config, props.query)
 
-    return <div className={props.className} style={{ position: "relative", alignSelf: "center", width: "100%", height: "100%",...props.style}}>
+    return <div className={props.className} style={{position: "relative", alignSelf: "center", width: "100%", height: "100%", ...props.style}}>
         <CssTextField
             error={props.config.error}
             state={autocomplete.query}
