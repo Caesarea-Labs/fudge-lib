@@ -5,6 +5,7 @@ import {State} from "../state/State"
 import styles from "./impl/searchit.module.css"
 import {styleWithVariables} from "../react/Styles.ts"
 import {AppTheme} from "../theme/AppTheme.ts"
+import {CSSProperties} from "react"
 
 export interface SearchitProps {
     config: AutoCompleteConfig,
@@ -22,6 +23,10 @@ export interface SearchitProps {
      * Exposed to allow customizing styles of external div
      */
     className?: string,
+    /**
+     * Exposed to allow customizing styles of external div
+     */
+    style?: CSSProperties
 }
 
 export interface AutoCompleteConfig {
@@ -86,7 +91,7 @@ export interface Completion {
 export function SearchitBar(props: SearchitProps) {
     const autocomplete = useAutoComplete(props.config, props.query)
 
-    return <div className={props.className} style={{position: "relative", alignSelf: "center", width: "100%", height: "100%"}}>
+    return <div className={props.className} style={{ position: "relative", alignSelf: "center", width: "100%", height: "100%",...props.style}}>
         <CssTextField
             error={props.config.error}
             state={autocomplete.query}
