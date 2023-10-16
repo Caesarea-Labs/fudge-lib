@@ -7,3 +7,7 @@ git checkout -b $1
 git submodule set-branch --branch $1 -- client/src/fudge-lib
 # 3. Set branch of git repository of submodule
 git submodule foreach git checkout -b $1
+# 4. Update changes in .gitmodules
+git add .
+git commit -m "Create branch $1"
+git push
