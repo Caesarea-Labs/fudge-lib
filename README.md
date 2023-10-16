@@ -18,6 +18,12 @@ import "../fudge-lib/extensions/ExtensionsImpl.js"
   pull changes from both the main repo and fudge-lib, and `push.sh` is used to push changes to the main repo and
   fudge-lib.
 
+## Creating fudge-lib branches
+Simply do
+```shell
+git submodule set-branch --branch <branch-name> -- client/src/fudge-lib
+```
+
 # Why?
 
 NPM is bad.  
