@@ -147,7 +147,7 @@ const sections: SearchHelpSection[] = [
         examples: [
             {
                 query: `"This:will:be:treated:literally"`,
-                explanation: "Even though this query contains ':', it will be treated literally and not a key-value."
+                explanation: "Even though this query contains ':', it will be treated literally and not as a key-value."
             }
         ]
     }
