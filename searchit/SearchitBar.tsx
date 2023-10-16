@@ -1,11 +1,13 @@
 import {AutoCompleteWidthPx, useAutoComplete} from "./impl/Autocomplete"
 import {AutocompleteContent} from "./impl/SearchItBarImpl"
 import {CssTextField} from "./impl/CssTextField"
-import {State} from "../state/State"
+import {State, useStateObject} from "../state/State"
 import styles from "./impl/searchit.module.css"
 import {styleWithVariables} from "../react/Styles.ts"
 import {AppTheme} from "../theme/AppTheme.ts"
-import {CSSProperties} from "react"
+import React, {CSSProperties, useState} from "react"
+import {Button, Popover} from "@mantine/core"
+import {ReactSetState} from "../types/React.ts"
 
 export interface SearchitProps {
     config: AutoCompleteConfig,
@@ -89,13 +91,36 @@ export interface Completion {
  * See {@link SearchitProps}
  */
 export function SearchitBar(props: SearchitProps) {
-    const autocomplete = useAutoComplete(props.config, props.query)
+    const showHelp = useStateObject(false)
+    return <Popover opened={showHelp.value}>
+        <Popover.Target>
+            <div style={props.style}>
+                <SearchitBarImpl {...props} showHelp={showHelp}/>
+            </div>
 
-    return <div className={props.className} style={{position: "relative", alignSelf: "center", width: "100%", height: "100%", ...props.style}}>
+        </Popover.Target>
+        <Popover.Dropdown>
+            This is help
+        </Popover.Dropdown>
+    </Popover>
+
+}
+
+/**
+ * A text field that allows auto-complete.
+ * IMPORTANT: You must call {@link initKeyboardShortcuts} before ReactDom.createRoot() for hotkeys to work.
+ * See {@link SearchitProps}
+ */
+ function SearchitBarImpl(props: SearchitProps & {showHelp: State<boolean>}) {
+    const autocomplete = useAutoComplete(props.config, props.query)
+    const showingHelp = props.showHelp.value
+
+    return <div className={props.className} style={{position: "relative", alignSelf: "center", width: "100%", height: "100%"}}>
         <CssTextField
             error={props.config.error}
             state={autocomplete.query}
-            leadingIcon={
+            leadingContent={
+            /*Add loading / not submitted indicator*/
                 <div className={styles.loader} style={styleWithVariables(
                     {
                         visibility: !autocomplete.submitted || props.loading ? undefined : "hidden",
@@ -105,6 +130,11 @@ export function SearchitBar(props: SearchitProps) {
                         "--loader-size": "3px"
                     }
                 )}/>
+            }
+            trailingContent={
+                <Button onClick={() => props.showHelp.setValue(old => !old)}
+                        style = {{color: showingHelp ? AppTheme.text : AppTheme.subtitleText}}
+                        variant={showingHelp? "light" : "subtle"}>{showingHelp? "Hide Help" : "Show Help"}</Button>
             }
             inputRef={autocomplete.inputRef}
             onFocus={() => autocomplete.show()}

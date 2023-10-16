@@ -16,19 +16,21 @@ const errorTextSize = "0.8rem"
 export function CssTextField(props: {
     error?: string,
     state: State<string>,
-    leadingIcon?: ReactComponent,
+    leadingContent?: ReactComponent,
+    trailingContent?: ReactComponent,
     inputRef?: Ref<HTMLInputElement>
 } & React.HTMLAttributes<HTMLInputElement>) {
-    const {error, state, leadingIcon, inputRef, ...inputProps} = props
+    const {error, state, leadingContent, inputRef, ...inputProps} = props
     const divStyle = {borderColor: props.error !== undefined ? AppTheme.error : undefined}
     // const test = withClassName(inputProps, styles.input)
     return <Column style={{width: "100%"}}>
         {/*Balance the bottom placeholder text so the input will be centered*/}
         {PlaceHolderText(errorTextSize)}
         <div style={divStyle} className={styles.inputWrapper}>
-            {props.leadingIcon}
+            {props.leadingContent}
             <input {...withClassName(inputProps, styles.textfieldInput)} ref={props.inputRef} value={props.state.value}
                    onChange={e => props.state.setValue(e.target.value)}/>
+            {props.trailingContent}
         </div>
 
         {/*Even if there is no error, have hidden text so the component won't enlarge when there's an error*/}

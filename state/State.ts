@@ -1,15 +1,16 @@
 import {Dispatch, SetStateAction, useState} from "react";
+import {ReactSetState} from "../types/React.ts"
 
 export class State<T> {
     readonly value: T
-    readonly setValue: Dispatch<SetStateAction<T>>
+    readonly setValue: ReactSetState<T>
 
-    constructor(value: T, setValue: Dispatch<SetStateAction<T>>) {
+    constructor(value: T, setValue: ReactSetState<T>) {
         this.value = value;
         this.setValue = setValue;
     }
 
-    destruct(): [T, Dispatch<SetStateAction<T>>] {
+    destruct(): [T, ReactSetState<T>] {
         return [this.value, this.setValue]
     }
 
