@@ -5,9 +5,10 @@ import {State, useStateObject} from "../state/State"
 import styles from "./impl/searchit.module.css"
 import {styleWithVariables} from "../react/Styles.ts"
 import {AppTheme} from "../theme/AppTheme.ts"
-import React, {CSSProperties, useState} from "react"
+import React, {CSSProperties} from "react"
 import {Button, Popover} from "@mantine/core"
-import {ReactSetState} from "../types/React.ts"
+import {ReactComponent} from "../types/React.ts"
+import {Column, SpacedColumn, SpacedRow} from "../react/Flow.tsx"
 
 export interface SearchitProps {
     config: AutoCompleteConfig,
@@ -92,18 +93,102 @@ export interface Completion {
  */
 export function SearchitBar(props: SearchitProps) {
     const showHelp = useStateObject(false)
-    return <Popover opened={showHelp.value}>
-        <Popover.Target>
-            <div style={props.style}>
-                <SearchitBarImpl {...props} showHelp={showHelp}/>
-            </div>
+    return <WithHelp showHelp={showHelp.value}>
+        <div style={props.style}>
+            <SearchitBarImpl {...props} showHelp={showHelp}/>
+        </div>
+    </WithHelp>
 
+}
+
+function WithHelp(props: { children: ReactComponent, showHelp: boolean }) {
+    return <Popover opened={props.showHelp} width={"target"} offset={-10}>
+        <Popover.Target>
+            {props.children}
         </Popover.Target>
         <Popover.Dropdown>
-            This is help
+            <Column>
+                {sections.map(section => <Section key={section.title} {...section}/>)}
+            </Column>
+
         </Popover.Dropdown>
     </Popover>
+}
 
+const sections: SearchHelpSection[] = [
+    {
+        title: "Filter by time",
+        examples: [
+            {query: "from:20/12/2001", explanation: "After 20/12/2001"},
+            {query: "to:20/12", explanation: "Up until 20/12 in the current year"},
+            {query: "from:20", explanation: "After the 20th of the current month"},
+            {query: "to:yesterday", explanation: "Up until yesterday"}
+        ]
+    },
+    {
+        title: "Filter by key-value",
+        examples: [
+            {query: "id:200", explanation: "Items with the property 'id' being equal to 200"},
+            {query: "fileName:dog.jpg", explanation: "Items with the property 'fileName' being equal to dog.jpg"}
+        ]
+    },
+    {
+        title: "OR / AND / NOT",
+        examples: [
+            {query: "id:200 or level:info", explanation: "Any item that either has an id of 200, or has a level of info"},
+            {
+                query: "fileName:dog.jpg and not (levelExact:warn or levelExact:error)",
+                explanation: "Any item that both has a file name of dog.jpg, and does not have levelExact be equal to warn or to error."
+            }
+        ]
+    },
+    {
+        title: "Escaping",
+        examples: [
+            {
+                query: `"This:will:be:treated:literally"`,
+                explanation: "Even though this query contains ':', it will be treated literally and not a key-value."
+            }
+        ]
+    }
+]
+
+export interface SearchExample {
+    query: string
+    explanation: string
+}
+
+export interface SearchHelpSection {
+    title: string
+    examples: SearchExample[]
+}
+
+function Section(props: SearchHelpSection) {
+    return <SpacedColumn space={0.2}>
+        <span style={{fontWeight: "bold", fontSize: "1.3rem"}}>{props.title}</span>
+        <SpacedColumn space={0.2} style={{paddingLeft: "1rem"}}>
+            {props.examples.map((example) => <Example key={example.query} example={example}/>)}
+        </SpacedColumn>
+    </SpacedColumn>
+}
+
+function Example({example}: { example: SearchExample }) {
+    return <SpacedRow space={1} style={{alignItems: "center"}}>
+        <span style={{backgroundColor: AppTheme.background, padding: "0.1rem", color: AppTheme.primary}}>{example.query}</span>
+        <span style={{color: AppTheme.subtitleText}}>{example.explanation}</span>
+    </SpacedRow>
+}
+
+function UnsubmittedIndicator(props: { submitted: boolean, loading: boolean }) {
+    return <div className={styles.loader} style={styleWithVariables(
+        {
+            visibility: !props.submitted || props.loading ? undefined : "hidden",
+            animation: props.loading ? undefined : "unset",
+            "--loader-color-1": props.loading ? undefined : undefined,
+            "--loader-color-2": props.loading ? undefined : AppTheme.warn,
+            "--loader-size": "3px"
+        }
+    )}/>
 }
 
 /**
@@ -111,31 +196,15 @@ export function SearchitBar(props: SearchitProps) {
  * IMPORTANT: You must call {@link initKeyboardShortcuts} before ReactDom.createRoot() for hotkeys to work.
  * See {@link SearchitProps}
  */
- function SearchitBarImpl(props: SearchitProps & {showHelp: State<boolean>}) {
+function SearchitBarImpl(props: SearchitProps & { showHelp: State<boolean> }) {
     const autocomplete = useAutoComplete(props.config, props.query)
-    const showingHelp = props.showHelp.value
 
     return <div className={props.className} style={{position: "relative", alignSelf: "center", width: "100%", height: "100%"}}>
         <CssTextField
             error={props.config.error}
             state={autocomplete.query}
-            leadingContent={
-            /*Add loading / not submitted indicator*/
-                <div className={styles.loader} style={styleWithVariables(
-                    {
-                        visibility: !autocomplete.submitted || props.loading ? undefined : "hidden",
-                        animation: props.loading ? undefined : "unset",
-                        "--loader-color-1": props.loading ? undefined : undefined,
-                        "--loader-color-2": props.loading ? undefined : AppTheme.warn,
-                        "--loader-size": "3px"
-                    }
-                )}/>
-            }
-            trailingContent={
-                <Button onClick={() => props.showHelp.setValue(old => !old)}
-                        style = {{color: showingHelp ? AppTheme.text : AppTheme.subtitleText}}
-                        variant={showingHelp? "light" : "subtle"}>{showingHelp? "Hide Help" : "Show Help"}</Button>
-            }
+            leadingContent={<UnsubmittedIndicator submitted={autocomplete.submitted} loading={props.loading}/>}
+            trailingContent={<ShowHelpButton state={props.showHelp}/>}
             inputRef={autocomplete.inputRef}
             onFocus={() => autocomplete.show()}
             onBlur={() => autocomplete.hide()}
@@ -158,4 +227,11 @@ export function SearchitBar(props: SearchitProps) {
             onSelectItem={(completion) => autocomplete.complete(completion)}/>
     </div>
 
+}
+
+function ShowHelpButton(props: { state: State<boolean> }) {
+    const showingHelp = props.state.value
+    return <Button onClick={() => props.state.setValue(old => !old)}
+                   style={{color: showingHelp ? AppTheme.text : AppTheme.subtitleText}}
+                   variant={showingHelp ? "light" : "subtle"}>{showingHelp ? "Hide Help" : "Show Help"}</Button>
 }
