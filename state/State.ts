@@ -1,4 +1,4 @@
-import {Dispatch, SetStateAction, useState} from "react";
+import {useState} from "react"
 import {ReactSetState} from "../types/React.ts"
 
 export class State<T> {
@@ -6,8 +6,8 @@ export class State<T> {
     readonly setValue: ReactSetState<T>
 
     constructor(value: T, setValue: ReactSetState<T>) {
-        this.value = value;
-        this.setValue = setValue;
+        this.value = value
+        this.setValue = setValue
     }
 
     destruct(): [T, ReactSetState<T>] {
@@ -15,7 +15,7 @@ export class State<T> {
     }
 
     mapValue(newValue: T): State<T> {
-        return new State<T>(newValue, this.setValue);
+        return new State<T>(newValue, this.setValue)
     }
 
     onSet(callback: (newValue: T) => void): State<T> {
@@ -23,10 +23,10 @@ export class State<T> {
             if (typeof newValue === "function") {
                 const newValueHandler = newValue as ((value: T) => T)
                 this.setValue((prevState) => {
-                    const updatedValue = newValueHandler(prevState);
+                    const updatedValue = newValueHandler(prevState)
                     callback(updatedValue)
-                    return updatedValue;
-                });
+                    return updatedValue
+                })
             } else {
                 callback(newValue)
                 this.setValue(newValue)
@@ -39,9 +39,9 @@ export class State<T> {
             if (typeof newValue === "function") {
                 const newValueHandler = newValue as ((value: R) => R)
                 this.setValue((prevState) => {
-                    const updatedValue = newValueHandler(oldToNew(prevState));
+                    const updatedValue = newValueHandler(oldToNew(prevState))
                     return newToOld(updatedValue)
-                });
+                })
             } else {
                 this.setValue(newToOld(newValue))
             }
