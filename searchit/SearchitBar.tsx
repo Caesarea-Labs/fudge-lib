@@ -9,6 +9,7 @@ import React, {CSSProperties} from "react"
 import {Button, Popover} from "@mantine/core"
 import {ReactComponent} from "../types/React.ts"
 import {Column, SpacedColumn, SpacedRow} from "../react/Flow.tsx"
+import {ThemeRoot} from "../theme/ThemeProvider.tsx"
 
 export interface SearchitProps {
     config: AutoCompleteConfig,
@@ -107,10 +108,12 @@ function WithHelp(props: { children: ReactComponent, showHelp: boolean }) {
             {props.children}
         </Popover.Target>
         <Popover.Dropdown>
-            <Column>
-                {sections.map(section => <Section key={section.title} {...section}/>)}
-            </Column>
-
+            {/*Need a new theme root because Popover gets placed at a different root*/}
+            <ThemeRoot style={{flexGrow: 1}}>
+                <Column>
+                    {sections.map(section => <Section key={section.title} {...section}/>)}
+                </Column>
+            </ThemeRoot>
         </Popover.Dropdown>
     </Popover>
 }
