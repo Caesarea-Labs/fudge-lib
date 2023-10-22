@@ -12,12 +12,13 @@
 
     --background: rgb(28, 28, 28);
     --surface: #25262b;
-    --contrast-surface: rgb(50, 50, 50);
+    --contrast-surface: #313238;
     --extra-contrast-surface: rgb(60, 60, 60);
     --border: rgb(86, 86, 86);
 
     --hover: rgba(0, 88, 150, 0.15);
     --selected: rgba(0, 88, 150, 0.5);
+    --highlight: rgba(200,200,200, 0.15)
 
 }
 
@@ -70,6 +71,6 @@
 }
 
 .clickable:hover {
-    background-color: var(--hover);
+     background-color: var(--hover) !important;
     cursor:pointer;
 }

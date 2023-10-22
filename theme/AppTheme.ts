@@ -8,6 +8,7 @@ export namespace AppTheme {
     export const contrastSurface = "var(--contrast-surface)"
     export const contrastText = "var(--contrast-text)"
     export const hover = "var(--hover)"
+    export const highlight = "var(--highlight)"
     export const error = "var(--error)"
     export const warn = "var(--warn)"
     export const selected = "var(--selected)"
