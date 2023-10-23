@@ -1,8 +1,6 @@
 import {ReactComponent} from "../types/React.ts"
-import {State} from "../state/State.ts"
 import {createContext, CSSProperties, useContext} from "react"
 import {systemIsDarkMode} from "./AppTheme.ts"
-import {PageBoundary} from "../../ui/utils/ErrorBoundaries.tsx"
 
 
 export function useLightMode(): boolean {
@@ -22,7 +20,7 @@ export function ThemeProvider(props: { children: ReactComponent, light: boolean 
 /**
  * Applies css variables matching the current theme. Requires {@link ThemeProvider} to be a parent.
  */
-export function ThemeRoot(props: {children: ReactComponent, style?: CSSProperties}) {
+export function ThemeRoot(props: { children: ReactComponent, style?: CSSProperties }) {
     const light = useLightMode()
     return <div style={props.style} className={light ? "light" : undefined}>
         {props.children}
