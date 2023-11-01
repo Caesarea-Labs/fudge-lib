@@ -228,14 +228,25 @@ Array.prototype.sortedBy = function <T, V>(this: T[], comparisonKey: (element: T
     return [...this].sort((a, b) => {
         const aValue = comparisonKey(a)
         const bValue = comparisonKey(b)
-        if (aValue === bValue) {
-            return 0
-        } else if (aValue < bValue) {
-            return desc ? 1 : -1
-        } else {
-            return desc ? -1 : 1
-        }
+
+        const result = compare(aValue, bValue)
+        return desc ? -result : result
     })
+}
+
+function compare(a: unknown, b: unknown): number {
+    // Use more accurate number sorting for numbers
+    const aNumber = Number(a)
+    const bNumber = Number(b)
+    if (!isNaN(aNumber) && !isNaN(bNumber)) return aNumber - bNumber
+
+    if (a === b) {
+        return 0
+    } else if (String(a) < String(b)) {
+        return -1
+    } else {
+        return 1
+    }
 }
 
 

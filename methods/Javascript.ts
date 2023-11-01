@@ -65,6 +65,11 @@ export function recordToArray<V, Rec extends Record<keyof Rec, V>, K extends key
     return typedKeys(record).map((key, index) => mapFn(key, record[key], index))
 }
 
+// export function recordToArray2<K extends TsKey, V, R>(record: Record<K, V>,
+//                                                       mapFn: (key: K, value: V, index: number) => R): R[] {
+//     return typedKeys(record).map((key, index) => mapFn(key, record[key], index))
+// }
+
 export function objectLength(obj: object): number {
     return Object.keys(obj).length
 }

@@ -16,23 +16,44 @@ import {useEffect, useState} from "react"
  * This behavior makes more sense when the existing data is still relevant even when deps change,
  * for example when the promise simply fetches an update for the same data.
  * @return T | undefined: The result of the promise or undefined if no promise has been resolved yet.
- * @return boolean: Whether a promise is currently in the process of being resolved. Use this to not whether we are "loading".
+ * @return boolean: Whether a promise is currently in the process of being resolved. Use this to know whether we are "loading".
  */
 export function usePromise<T>(promise: () => Promise<NonNullable<T>> | T, deps: unknown[]): [T | undefined, boolean] {
-    const [result, setResult] = useState<PromiseState<T>>({value: undefined, loading: true})
+    const [result, setResult] = useState<PromiseState<T>>({kind: "loading"})
 
     useEffect(() => {
-        setResult(old => ({value: old.value, loading: true}))
+        setResult({kind: "loading"})
         void Promise.resolve(promise()).then(newValue => {
-            setResult({loading: false, value: newValue})
+            setResult({kind: "success", value: newValue})
+        }).catch(err => {
+            setResult({kind: "error", error: err})
         })
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, deps)
-    return [result.value, result.loading]
+    switch (result.kind) {
+        case "loading":
+            return [undefined, true]
+        case "success":
+            return [result.value, false]
+        case "error":
+            throw result.error
+    }
 }
 
-interface PromiseState<T> {
-    value: T | undefined
-    loading: boolean
+
+interface PromiseError {
+    error: unknown
+    kind: "error"
 }
+
+interface PromiseFulfilled<T> {
+    value: T
+    kind: "success"
+}
+
+interface PromiseLoading {
+    kind: "loading"
+}
+
+type PromiseState<T> = PromiseLoading | PromiseFulfilled<T> | PromiseError
 

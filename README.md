@@ -19,7 +19,9 @@ import "../fudge-lib/extensions/ExtensionsImpl.js"
   fudge-lib.
 
 ## Creating fudge-lib branches
+
 Simply do
+
 ```shell
 git submodule set-branch --branch <branch-name> -- client/src/fudge-lib
 ```

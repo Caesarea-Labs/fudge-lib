@@ -49,9 +49,11 @@ export class State<T> {
     }
 
     field<F extends keyof T>(field: F): State<T[F]> {
-        return this.mapType(range => range[field], fieldValue => ({...this.value, [field]: fieldValue}))
+        return this.mapType(obj => obj[field], fieldValue => ({...this.value, [field]: fieldValue}))
     }
+
 }
+
 
 export function useStateObject<T>(initial: T): State<T> {
     const [value, setValue] = useState(initial)
