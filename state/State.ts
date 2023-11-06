@@ -1,6 +1,16 @@
 import {useState} from "react"
 import {ReactSetState} from "../types/React.ts"
 
+// export interface ReadOnlyState<T> {
+//     readonly value: T
+// }
+//
+// function mapReadonlyType<T, R>(state: ReadOnlyState<T>, oldToNew: (old: T) => R, ): ReadOnlyState<R> {
+//     return {
+//         value: oldToNew()
+//     }
+// }
+
 export class State<T> {
     readonly value: T
     readonly setValue: ReactSetState<T>

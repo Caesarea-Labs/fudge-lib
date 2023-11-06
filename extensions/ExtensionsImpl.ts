@@ -152,14 +152,35 @@ Array.prototype.toRecord = function <T, K extends TsKey, V>(this: Array<T>, map:
 }
 
 
-Array.prototype.arrayEquals = function <T>(this: T[], b: T[]): boolean {
-    return this.length === b.length &&
-        this.every((val, index) => val === b[index])
+Array.prototype.arrayEquals = function <T>(this: T[], other: T[]): boolean {
+    if (this.length !== other.length) return false
+    for (let i = 0; i < this.length; i++) {
+        if (this[i] !== other[i]) return false
+    }
+    return true
 }
+
+Array.prototype.insertAt = function <T>(this: T[], index: number, item: T): void {
+    this.splice(index, 0, item)
+    // return [
+    //     ...this.slice(0, index),
+    //     item,
+    //     ...this.slice(index)
+    // ]
+}
+
 
 Array.prototype.remove = function <T>(this: T[], item: T): void {
     const index = this.indexOf(item)
     if (index !== -1) this.splice(index, 1)
+}
+Array.prototype.removeAt = function <T>(this: T[], index: number): T {
+    return this.splice(index, 1)[0]
+}
+Array.prototype.replacedAt = function <T>(this: T[], index: number, value: T): T[] {
+    const newArr = [...this]
+    newArr[index] = value
+    return newArr
 }
 Array.prototype.firstOr = function <T, V>(this: T[], or: () => V): T | V {
     if (this.length === 0) {
@@ -167,6 +188,13 @@ Array.prototype.firstOr = function <T, V>(this: T[], or: () => V): T | V {
     } else {
         return this[0]
     }
+}
+Array.prototype.take = function <T>(this: T[], amount: number): Array<T> {
+    const newArr = new Array(amount)
+    for (let i = 0; i < amount; i++) {
+        newArr[i] = this[i]
+    }
+    return newArr
 }
 Array.prototype.drop = function <T>(this: T[], amount: number): Array<T> {
     const newArr = new Array(this.length - amount)

@@ -1,11 +1,12 @@
 import {State, useStateObject} from "./State";
-import {defaultJsonSerializer, JsonSerializer} from "../structures/json.ts";
+import {defaultJsonSerializer, StringSerializer} from "../structures/json.ts";
+
 
 export class PersistentValue<T> {
     private readonly key: string
-    private readonly serializer: JsonSerializer<T>
+    private readonly serializer: StringSerializer<T>
 
-    constructor(key: string, parser?: JsonSerializer<T>) {
+    constructor(key: string, parser?: StringSerializer<T>) {
         this.key = key;
         this.serializer = parser ?? defaultJsonSerializer()
     }
@@ -22,7 +23,7 @@ export class PersistentValue<T> {
 }
 
 
-export function usePersistentState<T>(key: string, defaultValue: T | (() => T), jsonSerializer?: JsonSerializer<T>): State<T> {
+export function usePersistentState<T>(key: string, defaultValue: T | (() => T), jsonSerializer?: StringSerializer<T>): State<T> {
     const persistent = new PersistentValue<T>(key, jsonSerializer)
     const valueState = useStateObject<T>(
         persistent.getValue() ?? (typeof defaultValue === "function" ? (defaultValue as () => T)() : defaultValue)

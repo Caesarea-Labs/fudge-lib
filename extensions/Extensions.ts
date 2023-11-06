@@ -54,8 +54,17 @@ declare global {
 
         none(test: (item: T) => boolean): boolean
 
+        insertAt(index: number, item: T): void
+
 
         remove(item: T): void
+
+        /**
+         * Returns the removed value
+         */
+        removeAt(index: number): T
+
+        replacedAt(index: number, value: T): T[]
 
 
         firstOr<V>(or: () => V): T | V
@@ -72,6 +81,7 @@ declare global {
 
         sum(numberMap: (item: T) => number): number;
 
+        take(amount: number): T[]
 
         drop(amount: number): T[]
 

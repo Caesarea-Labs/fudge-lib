@@ -2,12 +2,12 @@
 import dayjs from "dayjs";
 
 /**
- * Considering there are multiple ways to serialize a value into JSON, fudge-lib api methods
- * accept a JsonSerializer when automatic JSON serialization is involved.
+ * Considering there are multiple ways to serialize a value into a string, fudge-lib api methods
+ * accept a string when automatic serialization is involved.
  * Use {@link defaultJsonSerializer} when you don't need a custom implementation.
  */
-export interface JsonSerializer<T> {
-    stringify(obj: unknown): string
+export interface StringSerializer<T> {
+    stringify(obj: T): string
 
     parse(string: string): T
 }
@@ -15,7 +15,7 @@ export interface JsonSerializer<T> {
 /**
  * This serializer detects strings that are ISO dates and converts them to dayjs
  */
-export function defaultJsonSerializer<T>(): JsonSerializer<T> {
+export function defaultJsonSerializer<T>(): StringSerializer<T> {
     return {
         parse<T>(string: string): T {
             return JSON.parse(string, (_, value) => {

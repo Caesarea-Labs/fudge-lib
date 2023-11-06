@@ -1,4 +1,4 @@
-import React from "react"
+import React, {forwardRef, Ref} from "react"
 import {withClassName, withDynamicClass} from "./Styles.ts"
 
 type DivProps = React.HTMLAttributes<HTMLDivElement>
@@ -6,16 +6,16 @@ type DivProps = React.HTMLAttributes<HTMLDivElement>
 /**
  * Shorthand for `style = {{display: "flex", flexDirection :"row"}}`
  */
-export function Row(props: DivProps) {
-    return <div {...withClassName(props, "row")}/>
-}
+export const Row = forwardRef(function Row(props: DivProps, ref: React.ForwardedRef<HTMLDivElement>) {
+    return <div ref = {ref} {...withClassName(props, "row")}/>
+})
 
 /**
  * Shorthand for `style = {{display: "flex", flexDirection :"row"}}`
  */
-export function Column(props: DivProps) {
-    return <div {...withClassName(props, "column")}/>
-}
+export const Column = forwardRef(function Column(props: DivProps, ref: React.ForwardedRef<HTMLDivElement>) {
+    return <div ref = {ref} {...withClassName(props, "column")}/>
+})
 
 /**
  * Has a single parameter, `space`, the specifies the space between every 2 children in rem.

@@ -1,4 +1,4 @@
-import {defaultJsonSerializer, JsonSerializer} from "../structures/json.ts"
+import {defaultJsonSerializer, StringSerializer} from "../structures/json.ts"
 
 /**
  * Denotes a server response.
@@ -18,7 +18,7 @@ export class HttpServer {
         this.url = url
     }
 
-    async doRequest<Suc, Err = void>(endpoint: string, req: unknown, json?: JsonSerializer<never>): Promise<Result<Suc, Err>> {
+    async doRequest<Suc, Err = void>(endpoint: string, req: unknown, json?: StringSerializer<never>): Promise<Result<Suc, Err>> {
         let response: Response
         try {
             response = await fetch(this.url, {
