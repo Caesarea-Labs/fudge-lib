@@ -72,6 +72,7 @@ module.exports = {
         "@typescript-eslint/no-inferrable-types": "warn",
         "no-empty": "warn",
         "no-inner-declarations": "off",
-        "prefer-const": "warn"
+        "prefer-const": "warn",
+        "@typescript-eslint/no-this-alias": "off"
     }
 }

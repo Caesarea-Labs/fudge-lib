@@ -1,7 +1,7 @@
 import {TsObject} from "../../types/Basic";
 
 
-export function equalsOfAnything(thingA: unknown, thingB: unknown): boolean {
+export function structuralEquals(thingA: unknown, thingB: unknown): boolean {
     const typeA = typeof thingA;
     const typeB = typeof thingB;
     if (typeA !== typeB) return false;
@@ -45,7 +45,7 @@ function defaultObjectEquals(objectA: TsObject, objectB: TsObject): boolean {
         const valueA = objectA[keyA]
         if (typeof valueA !== "function") {
             // Using keyA on both is intentional
-            if (!equalsOfAnything(valueA, objectB[keyA])) return false;
+            if (!structuralEquals(valueA, objectB[keyA])) return false;
         }
 
     }

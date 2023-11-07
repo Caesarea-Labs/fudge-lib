@@ -1,4 +1,4 @@
-import {equalsOfAnything} from "./EqualsImplementation"
+import {structuralEquals} from "./EqualsImplementation"
 import {LinkedList} from "../LinkedList"
 import {hashCodeOfAnything} from "./Hashing"
 
@@ -202,7 +202,7 @@ export class HashMap<K, V> implements MutableDict<K, V> {
         const usedHash = hash ?? this.getHash(key)
         const bucket = this.buckets[usedHash]
         if (bucket === undefined) return undefined
-        return bucket.find(entry => equalsOfAnything(entry.key, key))
+        return bucket.find(entry => structuralEquals(entry.key, key))
     }
 
     private forEachImpl(buckets: MapBucket<K, V>[], func: (entry: Entry<K, V>) => void) {

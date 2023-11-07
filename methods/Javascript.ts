@@ -24,6 +24,10 @@ export function mapRecordValues<K extends TsKey, V, NV>(record: Record<K, V>, va
     return mapRecord(record, k => k, valueMap)
 }
 
+export function mapRecordValues2< V, NV>(record: Record<string, V>, valueMap: (key: string, value: V) => NV): Record<string, NV> {
+    return mapRecord(record, k => k, valueMap)
+}
+
 export function recordFilter<V, Rec extends Record<keyof Rec, V>, K extends keyof Rec>
 (record: Record<K, V>, filter: (key: K, value: V, index: number) => boolean): Rec {
     const newObj = {} as Rec
