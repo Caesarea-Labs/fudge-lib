@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-return */
-import dayjs from "dayjs";
+import dayjs from "dayjs"
 
 /**
  * Considering there are multiple ways to serialize a value into a string, fudge-lib api methods
@@ -18,6 +18,7 @@ export interface StringSerializer<T> {
 export function defaultJsonSerializer<T>(): StringSerializer<T> {
     return {
         parse<T>(string: string): T {
+            if (string === "undefined") return undefined as T
             return JSON.parse(string, (_, value) => {
                 // By default, handle reading dayjs instances
                 if (typeof value === "string" && isIsoString(value)) {
