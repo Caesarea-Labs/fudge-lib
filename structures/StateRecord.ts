@@ -1,5 +1,6 @@
 import {useState} from "react"
 import {TsKey} from "../types/Basic"
+import {recordForEach} from "../methods/Javascript.ts"
 
 
 /**
@@ -9,6 +10,7 @@ export interface StateRecord<K extends TsKey, V> {
     delete(key: K): void
 
     set(key: K, value: V): void
+    replaceBy(record: Record<K,V>): void
 
     values(): V[]
 }
@@ -30,6 +32,9 @@ export function useStateRecord<K extends TsKey, V>(initialRecord?: Record<K, V>)
                 old[key] = value
                 return old
             })
+        },
+        replaceBy(record: Record<K, V>) {
+            setRecord(record)
         }
     }
 }
