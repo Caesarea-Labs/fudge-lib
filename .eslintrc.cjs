@@ -73,6 +73,7 @@ module.exports = {
         "no-empty": "warn",
         "no-inner-declarations": "off",
         "prefer-const": "warn",
-        "@typescript-eslint/no-this-alias": "off"
+        "@typescript-eslint/no-this-alias": "off",
+        "@typescript-eslint/no-duplicate-type-constituents": "off"
     }
 }
