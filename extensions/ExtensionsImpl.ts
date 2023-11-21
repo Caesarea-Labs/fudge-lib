@@ -318,3 +318,11 @@ Array.prototype.distinct = function <T>(this: T[]): Array<T> {
     }
     return newArray
 }
+
+Array.prototype.zip = function <T, T2>(this: T[], other: T2[]): [T, T2][] {
+    const newArray: [T, T2][] = []
+    for (let i = 0; i < this.length; i++) {
+        newArray[i] = [this[i], other[i]]
+    }
+    return newArray
+}

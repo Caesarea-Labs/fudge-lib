@@ -2,12 +2,13 @@
     --primary: rgb(0, 217, 255);
 
     /*Dark colors*/
-    --text: rgb(255, 255, 255);
+    --strong-text: rgb(255, 255, 255);
     --contrast-text: rgb(199, 198, 181);
     --subtitle-text: rgb(150, 150, 150);
 
     --warn: yellow;
     --error: red;
+    --contrast-error: #9f0c0c;
     --debug: green;
 
     --background: rgb(28, 28, 28);

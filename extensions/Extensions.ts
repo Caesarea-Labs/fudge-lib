@@ -64,6 +64,9 @@ declare global {
          */
         removeAt(index: number): T
 
+        /**
+         * Immutable variant of assigning a value at an index, as this will not modify the array and will instead return a new array.
+         */
         replacedAt(index: number, value: T): T[]
 
 
@@ -102,6 +105,11 @@ declare global {
         mapSync<NT>(map: (item: T, index: number) => Promise<NT>): Promise<NT[]>
 
         toRecord<K extends TsKey, V>(map: (element: T, index: number) => [K, V]): Record<K, V>;
+
+        /**
+         * The length of this array will be used
+         */
+        zip<T2>(other: T2[]): [T,T2][]
     }
 }
 

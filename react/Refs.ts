@@ -12,12 +12,21 @@ class RefArray<T, El> {
     }
 
 
-    use(components: (item: T, ref: React.RefObject<El>, i :number) => ReactComponent) {
+    use<R>(components: (item: T, ref: React.RefObject<El>, i :number) => R): R[] {
         return this.data.map((child, i) => components(child,this.refs[i],i))
     }
 
-    get(index: number) : React.RefObject<El> | undefined {
+    getAt(index: number) : React.RefObject<El> | undefined {
         return this.refs[index]
+    }
+    //TODO: consider changing implementation to a map to make this faster
+    get(value: T) : React.RefObject<El> | undefined {
+        const index = this.data.indexOfOrThrow(value)
+        return this.getAt(index)
+    }
+    getBy(condition: (value: T) => boolean) : React.RefObject<El> | undefined {
+        const index = this.data.firstIndex(condition)
+        return this.getAt(index)
     }
 }
 
