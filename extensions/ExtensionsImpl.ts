@@ -151,6 +151,15 @@ Array.prototype.toRecord = function <T, K extends TsKey, V>(this: Array<T>, map:
     return record
 }
 
+Array.prototype.toMap = function <T, K extends TsKey, V>(this: Array<T>, mapper: (element: T, index: number) => [K, V]): Map<K, V> {
+    const map = new Map<K,V>()
+    this.forEach((element, index) => {
+        const [key, value] = mapper(element, index)
+        map.set(key,value)
+    })
+    return map
+}
+
 
 Array.prototype.arrayEquals = function <T>(this: T[], other: T[]): boolean {
     if (this.length !== other.length) return false

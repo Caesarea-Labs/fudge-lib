@@ -105,6 +105,7 @@ declare global {
         mapSync<NT>(map: (item: T, index: number) => Promise<NT>): Promise<NT[]>
 
         toRecord<K extends TsKey, V>(map: (element: T, index: number) => [K, V]): Record<K, V>;
+        toMap<K, V>(map: (element: T, index: number) => [K, V]): Map<K, V>;
 
         /**
          * The length of this array will be used
