@@ -74,6 +74,12 @@ module.exports = {
         "no-inner-declarations": "off",
         "prefer-const": "warn",
         "@typescript-eslint/no-this-alias": "off",
-        "@typescript-eslint/no-duplicate-type-constituents": "off"
+        "@typescript-eslint/no-duplicate-type-constituents": "off",
+        "@typescript-eslint/no-misused-promises": [
+            "warn",
+            {
+                "checksVoidReturn": false
+            }
+        ]
     }
 }

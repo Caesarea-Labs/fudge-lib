@@ -9,20 +9,19 @@ import {useEffect, useState} from "react"
  * to bad user experience.
  *
  * Effect for easily using Promises in React components.
- * Normally, once the deps change the value will be set to undefined and the promise function will be called again to get a new value.
- * This behavior makes sense for when the existing data is no longer relevant when the deps change.
- * If retainValueBetweenChanges is true, once the deps change the value will be kept as-is,
- * and once the promise function has resolved again it will instantly switch to the new value.
- * This behavior makes more sense when the existing data is still relevant even when deps change,
- * for example when the promise simply fetches an update for the same data.
+ * A value will always exist once it has been resolved in the first place.
+ *
+ * @param promise
+ * @param deps
+ * @param throwOnError If false, when fetching fails this will return undefined instead of throwing.
  * @return T | undefined: The result of the promise or undefined if no promise has been resolved yet.
  * @return boolean: Whether a promise is currently in the process of being resolved. Use this to know whether we are "loading".
  */
-export function usePromise<T>(promise: () => Promise<NonNullable<T>> | T, deps: unknown[]): [T | undefined, boolean] {
-    const [result, setResult] = useState<PromiseState<T>>({kind: "loading"})
+export function usePromise<T>(promise: () => Promise<NonNullable<T>> | T, deps: unknown[], throwOnError = true): [T | undefined, boolean] {
+    const [result, setResult] = useState<PromiseState<T>>({kind: "loading", oldValue: undefined})
 
     useEffect(() => {
-        setResult({kind: "loading"})
+        setResult({kind: "loading", oldValue: getPromiseStateValue(result)})
         void Promise.resolve(promise()).then(newValue => {
             setResult({kind: "success", value: newValue})
         }).catch(err => {
@@ -32,11 +31,27 @@ export function usePromise<T>(promise: () => Promise<NonNullable<T>> | T, deps: 
     }, deps)
     switch (result.kind) {
         case "loading":
-            return [undefined, true]
+            return [result.oldValue, true]
         case "success":
             return [result.value, false]
+        case "error": {
+            if (throwOnError) {
+                throw result.error
+            } else {
+                return [undefined, false]
+            }
+        }
+    }
+}
+
+function getPromiseStateValue<T>(state: PromiseState<T>): T | undefined {
+    switch (state.kind) {
+        case "loading":
+            return state.oldValue
+        case "success":
+            return state.value
         case "error":
-            throw result.error
+            return undefined
     }
 }
 
@@ -51,9 +66,10 @@ interface PromiseFulfilled<T> {
     kind: "success"
 }
 
-interface PromiseLoading {
+interface PromiseLoading<T> {
     kind: "loading"
+    oldValue: T | undefined
 }
 
-type PromiseState<T> = PromiseLoading | PromiseFulfilled<T> | PromiseError
+type PromiseState<T> = PromiseLoading<T> | PromiseFulfilled<T> | PromiseError
 
