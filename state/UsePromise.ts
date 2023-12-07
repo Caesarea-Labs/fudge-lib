@@ -17,7 +17,7 @@ import {useEffect, useState} from "react"
  * @return T | undefined: The result of the promise or undefined if no promise has been resolved yet.
  * @return boolean: Whether a promise is currently in the process of being resolved. Use this to know whether we are "loading".
  */
-export function usePromise<T>(promise: () => Promise<NonNullable<T>> | T, deps: unknown[], throwOnError = true): [T | undefined, boolean] {
+export function usePromise<T>(promise: () => Promise<T> | T, deps: unknown[], throwOnError = true): [T | undefined, boolean] {
     const [result, setResult] = useState<PromiseState<T>>({kind: "loading", oldValue: undefined})
 
     useEffect(() => {
